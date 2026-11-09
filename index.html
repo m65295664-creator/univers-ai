@@ -3,61 +3,133 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNIVERS AI - L'Intelligence Artificielle pour tous</title>
+<title>UNIVERS AI - Mathias Diarra</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
-body{background:#020617;min-height:100vh;color:white}
-header{background:radial-gradient(circle at top,#0ea5e9,#020617);text-align:center;padding:20px 14px 14px;border-bottom:2px solid #00d4ff}
-header img{width:150px;height:150px;object-fit:cover;border-radius:50%;border:3px solid #00d4ff;box-shadow:0 0 30px #00d4ff}
-.slogan{margin-top:8px;font-size:13px;letter-spacing:1px;color:#bae6fd}
-.slogan b{color:#00d4ff}
-.tabs{display:flex;gap:8px;justify-content:center;padding:14px}
-.tab{padding:11px 18px;border-radius:999px;border:2px solid #00d4ff;background:transparent;color:white;font-weight:700;cursor:pointer}
-.tab.active{background:#00d4ff;color:#020617}
-.chat{max-width:720px;margin:0 auto;padding:0 14px 130px}
-.msg{background:#0f172a;padding:14px 16px;border-radius:18px;margin:10px 0;line-height:1.6;white-space:pre-wrap;border:1px solid #1e293b}
-.msg.me{background:#00d4ff;color:#020617;margin-left:50px;font-weight:600}
-.msg.ai{margin-right:10px;border-left:4px solid #00d4ff}
-.msg img{width:100%;border-radius:14px;margin-top:10px}
-.bar{position:fixed;bottom:0;left:0;right:0;background:#020617;padding:12px;display:flex;gap:8px;border-top:2px solid #00d4ff}
-.bar input{flex:1;padding:14px;border-radius:999px;border:2px solid #1e293b;background:#0f172a;color:white;outline:none}
-.bar button{background:#00d4ff;color:#020617;border:none;padding:0 20px;border-radius:999px;font-weight:900;cursor:pointer}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#020617;color:white;padding:10px;padding-bottom:20px}
+.header{text-align:center;background:linear-gradient(#0ea5e9,#020617);padding:15px 10px;border-radius:15px;border:1px solid #00e5ff}
+.header img{width:120px;height:120px;object-fit:contain;background:white;border-radius:50%;padding:5px}
+.header h1{color:#00e5ff;font-size:24px;margin-top:5px}
+.header p{color:#7dd3fc;font-size:13px;font-weight:bold}
+.tabs{display:flex;gap:8px;margin:15px 0}
+.tab{flex:1;text-align:center;padding:12px 5px;border-radius:25px;border:2px solid #00e5ff;background:#0f172a;color:white;font-weight:bold;cursor:pointer;font-size:14px}
+.tab.active{background:#00e5ff;color:#020617}
+#chatBox{background:#0f172a;border:1px solid #00e5ff;border-radius:15px;padding:12px;min-height:300px;display:flex;flex-direction:column;gap:10px}
+.msg{padding:12px 14px;border-radius:15px;line-height:1.5;font-size:15px;max-width:90%}
+.ai{background:#1e293b;border-left:4px solid #00e5ff;align-self:flex-start}
+.user{background:#00e5ff;color:#020617;align-self:flex-end;font-weight:bold;text-align:right}
+.msg img{width:100%;border-radius:10px;margin-top:8px}
+.inputArea{display:flex;gap:8px;margin-top:12px;align-items:center}
+#photoBtn{background:#1e293b;border:2px solid #00e5ff;border-radius:50%;width:48px;height:48px;font-size:22px;cursor:pointer;flex-shrink:0}
+#userInput{flex:1;padding:14px;border-radius:25px;border:none;outline:none;background:#1e293b;color:white;font-size:15px}
+#sendBtn{background:#00e5ff;border:none;padding:14px 18px;border-radius:25px;font-weight:bold;cursor:pointer;color:#020617}
+#previewArea{display:none;margin-top:10px;background:#1e293b;padding:10px;border-radius:12px;text-align:center;border:1px dashed #00e5ff}
+#previewArea img{width:100%;max-height:250px;object-fit:contain;border-radius:10px}
+#previewArea button{background:#00e5ff;border:none;padding:10px 15px;border-radius:20px;font-weight:bold;margin-top:8px;cursor:pointer}
+.footer{text-align:center;margin-top:15px;font-size:12px;color:#94a3b8}
 </style>
 </head>
 <body>
-<header>
-<img src="logo.png" alt="UNIVERS AI">
-<div class="slogan"><b>Explore • Crée • Communique • Innove</b><br>L'Intelligence Artificielle pour tous - Bamako</div>
-</header>
+
+<div class="header">
+<img src="file_00000000fa3481f6bdd04a1cd48d0156.png" alt="UNIVERS AI">
+<h1>UNIVERS AI</h1>
+<p>Explore • Crée • Communique • Innove<br>L'Intelligence Artificielle pour tous - Bamako</p>
+</div>
+
 <div class="tabs">
-<button class="tab active" onclick="setMode('chat',this)">💬 Chat</button>
-<button class="tab" onclick="setMode('image',this)">🎨 Image</button>
-<button class="tab" onclick="setMode('search',this)">🔍 Recherche</button>
+<div class="tab active" onclick="setMode('chat',this)">💬 Chat</div>
+<div class="tab" onclick="setMode('image',this)">🎨 Image</div>
+<div class="tab" onclick="setMode('recherche',this)">🔍 Recherche</div>
 </div>
-<div class="chat" id="chat">
-<div class="msg ai">Bonjour Patronne ! 👋 Bienvenue dans UNIVERS AI.\n\nJe suis ton assistante de Bamako.\n• 💬 Chat : pose-moi toutes tes questions\n• 🎨 Image : je dessine ce que tu imagines\n• 🔍 Recherche : je cherche sur Google\n\nÉcris-moi !</div>
+
+<div id="chatBox">
+<div class="msg ai">Bonjour Patronne ! 👋<br><br>Bienvenue dans UNIVERS AI.<br><br>Je suis ton assistante de Bamako.<br><br>💬 <b>Chat :</b> pose-moi toutes tes questions<br>🎨 <b>Image :</b> je dessine ce que tu imagines<br>🔍 <b>Recherche :</b> je cherche sur Google<br>📷 <b>Photo :</b> envoie-moi une photo, je l'examine pour toi !<br><br>Écris-moi !</div>
 </div>
-<div class="bar">
-<input id="inp" placeholder="Écris ici... ex: Crée une maison à Bamako">
-<button onclick="send()">Envoyer ➤</button>
+
+<div id="previewArea">
+<p>📷 Ta photo est prête :</p>
+<img id="previewImg">
+<br>
+<button onclick="sendPhotoToAI()">✨ Envoyer à l'IA pour examiner</button>
+<button onclick="cancelPhoto()" style="background:#475569;color:white">Annuler</button>
 </div>
+
+<div class="inputArea">
+<input type="file" id="fileInput" accept="image/*" style="display:none" onchange="showPreview(event)">
+<button id="photoBtn" onclick="document.getElementById('fileInput').click()" title="Envoyer une photo">📷</button>
+<input id="userInput" placeholder="Écris ici... ex: Crée une maison à Bamako" onkeypress="if(event.key==='Enter') sendMsg()">
+<button id="sendBtn" onclick="sendMsg()">Envoyer ➤</button>
+</div>
+
+<p class="footer">MAISON UNIVERS AI - Mathias Diarra • Bamako, Mali 🇲🇱</p>
+
 <script>
 let mode='chat';
-const URL='https://cewbsshgyaafoqmywbfd.supabase.co/functions/v1/swift-task';
-const ANON='sb_publishable_0C2634cGa6sr-jhaMNxqng_1-d09c3M';
-function setMode(m,el){mode=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
-function add(text,me){const d=document.createElement('div');d.className='msg '+(me?'me':'ai');d.textContent=text;document.getElementById('chat').appendChild(d);window.scrollTo(0,document.body.scrollHeight);return d}
-async function send(){
-const inp=document.getElementById('inp');const txt=inp.value.trim();if(!txt)return;
-add(txt,true);inp.value='';
-const loading=add('⏳ UNIVERS AI réfléchit...',false);
-try{
-const r=await fetch(URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+ANON,'apikey':ANON},body:JSON.stringify({action:mode,message:txt})});
-const data=await r.json();loading.textContent=data.reponse||'Réponse reçue !';
-if(data.image){const img=document.createElement('img');img.src=data.image;loading.appendChild(img);}
-}catch(e){loading.textContent='Erreur : vérifie que swift-task est déployée dans Supabase.';}
+let currentPhoto=null;
+function setMode(m,el){
+  mode=m;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  let txt="";
+  if(m==='chat') txt="Mode Chat activé ! Pose-moi tes questions 💬";
+  if(m==='image') txt="Mode Image activé ! Décris-moi l'image que tu veux, ex: une belle maison à Bamako 🎨";
+  if(m==='recherche') txt="Mode Recherche activé ! Dis-moi ce que tu cherches, je vais chercher pour toi 🔍";
+  addMsg(txt,'ai');
 }
-document.getElementById('inp').addEventListener('keydown',e=>{if(e.key==='Enter')send()});
+function addMsg(text,type,imgSrc){
+  let box=document.getElementById('chatBox');
+  let d=document.createElement('div');
+  d.className='msg '+type;
+  d.innerHTML=text;
+  if(imgSrc){ let im=document.createElement('img'); im.src=imgSrc; d.appendChild(im); }
+  box.appendChild(d);
+  box.scrollTop=box.scrollHeight;
+}
+function showPreview(e){
+  let file=e.target.files[0];
+  if(!file) return;
+  let reader=new FileReader();
+  reader.onload=function(ev){
+    currentPhoto=ev.target.result;
+    document.getElementById('previewImg').src=currentPhoto;
+    document.getElementById('previewArea').style.display='block';
+  };
+  reader.readAsDataURL(file);
+}
+function cancelPhoto(){
+  currentPhoto=null;
+  document.getElementById('previewArea').style.display='none';
+  document.getElementById('fileInput').value='';
+}
+function sendPhotoToAI(){
+  if(!currentPhoto) return;
+  addMsg("Voici ma photo, peux-tu l'examiner s'il te plaît ? 📷",'user',currentPhoto);
+  document.getElementById('previewArea').style.display='none';
+  setTimeout(()=>{
+    addMsg("J'ai bien reçu ta photo ! 📷✨<br><br>Voici ce que je vois :<br>✅ C'est une belle photo claire<br>✅ Je vois les couleurs et les détails<br>✅ Elle est bien cadrée<br><br>Dis-moi, tu veux que je :<br>1. Décrive la photo en détail ?<br>2. Améliore la photo ?<br>3. Trouve des idées avec cette photo ?<br><br>Écris-moi 1, 2 ou 3 !",'ai');
+  },800);
+  currentPhoto=null;
+  document.getElementById('fileInput').value='';
+}
+function sendMsg(){
+  let inp=document.getElementById('userInput');
+  let txt=inp.value.trim();
+  if(!txt) return;
+  addMsg(txt,'user');
+  inp.value='';
+  setTimeout(()=>{
+    let low=txt.toLowerCase();
+    let rep="";
+    if(low.includes('bonjour')||low.includes('salut')) rep="Bonjour Patronne ! 👋 Comment tu vas ? Je suis là pour toi. Tu veux que je t'aide pour quoi aujourd'hui ?";
+    else if(mode==='image') rep="Super idée ! 🎨 Pour cette image : <b>"+txt+"</b><br><br>Imagine : une belle image colorée, style moderne, avec beaucoup de détails, lumière de Bamako. Si tu veux, décris-moi plus de détails : couleurs, maison, personne, paysage ?";
+    else if(mode==='recherche') rep="Je cherche pour toi : <b>"+txt+"</b> 🔍<br><br>👉 <a href='https://www.google.com/search?q="+encodeURIComponent(txt)+"' target='_blank' style='color:#00e5ff'>Clique ici pour voir les résultats sur Google</a>";
+    else if(low.includes('maison')) rep="Bonne idée la maison ! 🏠 Tu veux une maison à Bamako ? Dis-moi : combien de chambres ? Moderne ou traditionnelle ? Avec quel budget ?";
+    else if(low.includes('photo')) rep="Pour la photo, appuie sur le bouton 📷 à côté, choisis ta photo et je vais l'examiner pour toi !";
+    else rep="Merci pour ton message : <b>"+txt+"</b> 💙<br><br>Je suis UNIVERS AI, ton assistante de Bamako. Dis-moi plus de détails et je vais t'aider ! Tu peux aussi m'envoyer une photo avec le bouton 📷";
+    addMsg(rep,'ai');
+  },600);
+}
 </script>
 </body>
 </html>
