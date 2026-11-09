@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNIVERS AI - L'Intelligence Artificielle pour tous</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
+body{background:#020617;min-height:100vh;color:white}
+header{background:radial-gradient(circle at top,#0ea5e9,#020617);text-align:center;padding:20px 14px 14px;border-bottom:2px solid #00d4ff}
+header img{width:150px;height:150px;object-fit:cover;border-radius:50%;border:3px solid #00d4ff;box-shadow:0 0 30px #00d4ff}
+.slogan{margin-top:8px;font-size:13px;letter-spacing:1px;color:#bae6fd}
+.slogan b{color:#00d4ff}
+.tabs{display:flex;gap:8px;justify-content:center;padding:14px}
+.tab{padding:11px 18px;border-radius:999px;border:2px solid #00d4ff;background:transparent;color:white;font-weight:700;cursor:pointer}
+.tab.active{background:#00d4ff;color:#020617}
+.chat{max-width:720px;margin:0 auto;padding:0 14px 130px}
+.msg{background:#0f172a;padding:14px 16px;border-radius:18px;margin:10px 0;line-height:1.6;white-space:pre-wrap;border:1px solid #1e293b}
+.msg.me{background:#00d4ff;color:#020617;margin-left:50px;font-weight:600}
+.msg.ai{margin-right:10px;border-left:4px solid #00d4ff}
+.msg img{width:100%;border-radius:14px;margin-top:10px}
+.bar{position:fixed;bottom:0;left:0;right:0;background:#020617;padding:12px;display:flex;gap:8px;border-top:2px solid #00d4ff}
+.bar input{flex:1;padding:14px;border-radius:999px;border:2px solid #1e293b;background:#0f172a;color:white;outline:none}
+.bar button{background:#00d4ff;color:#020617;border:none;padding:0 20px;border-radius:999px;font-weight:900;cursor:pointer}
+</style>
+</head>
+<body>
+<header>
+<img src="logo.png" alt="UNIVERS AI">
+<div class="slogan"><b>Explore • Crée • Communique • Innove</b><br>L'Intelligence Artificielle pour tous - Bamako</div>
+</header>
+<div class="tabs">
+<button class="tab active" onclick="setMode('chat',this)">💬 Chat</button>
+<button class="tab" onclick="setMode('image',this)">🎨 Image</button>
+<button class="tab" onclick="setMode('search',this)">🔍 Recherche</button>
+</div>
+<div class="chat" id="chat">
+<div class="msg ai">Bonjour Patronne ! 👋 Bienvenue dans UNIVERS AI.\n\nJe suis ton assistante de Bamako.\n• 💬 Chat : pose-moi toutes tes questions\n• 🎨 Image : je dessine ce que tu imagines\n• 🔍 Recherche : je cherche sur Google\n\nÉcris-moi !</div>
+</div>
+<div class="bar">
+<input id="inp" placeholder="Écris ici... ex: Crée une maison à Bamako">
+<button onclick="send()">Envoyer ➤</button>
+</div>
+<script>
+let mode='chat';
+const URL='https://cewbsshgyaafoqmywbfd.supabase.co/functions/v1/swift-task';
+const ANON='sb_publishable_0C2634cGa6sr-jhaMNxqng_1-d09c3M';
+function setMode(m,el){mode=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
+function add(text,me){const d=document.createElement('div');d.className='msg '+(me?'me':'ai');d.textContent=text;document.getElementById('chat').appendChild(d);window.scrollTo(0,document.body.scrollHeight);return d}
+async function send(){
+const inp=document.getElementById('inp');const txt=inp.value.trim();if(!txt)return;
+add(txt,true);inp.value='';
+const loading=add('⏳ UNIVERS AI réfléchit...',false);
+try{
+const r=await fetch(URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+ANON,'apikey':ANON},body:JSON.stringify({action:mode,message:txt})});
+const data=await r.json();loading.textContent=data.reponse||'Réponse reçue !';
+if(data.image){const img=document.createElement('img');img.src=data.image;loading.appendChild(img);}
+}catch(e){loading.textContent='Erreur : vérifie que swift-task est déployée dans Supabase.';}
+}
+document.getElementById('inp').addEventListener('keydown',e=>{if(e.key==='Enter')send()});
+</script>
+</body>
+</html>
