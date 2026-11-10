@@ -19,14 +19,10 @@ header h1{margin:0;font-size:22px} header p{margin:5px 0 0;opacity:.9}
 .row{display:flex;gap:8px}
 input{flex:1;padding:12px;border:1px solid #ddd;border-radius:12px;font-size:16px}
 button.send{background:#FFD700;border:none;padding:12px 18px;border-radius:12px;font-weight:bold;cursor:pointer}
-small{color:#777}
 </style>
 </head>
 <body>
-<header>
-<h1>🇲🇱 LA MAISON UNIVERS AI</h1>
-<p>Ta Maman Malienne Intelligente - Prix, Menu, Marché à Bamako</p>
-</header>
+<header><h1>🇲🇱 LA MAISON UNIVERS AI</h1><p>Ta Maman Malienne Intelligente - Prix, Menu, Marché à Bamako</p></header>
 <div class="wrap">
 <div class="quick">
 <button onclick="poser('Prix du riz à Bamako ?')">🍚 Prix du riz</button>
@@ -35,61 +31,26 @@ small{color:#777}
 <button onclick="poser('Prix du poulet bicyclette à Bamako ?')">🍗 Prix poulet</button>
 <button onclick="poser('Liste des courses pour la semaine pour 20000 FCFA ?')">🛒 Courses 20.000F</button>
 </div>
-<div class="box">
-<div id="chat">
-<div class="msg ai">👋 I ni ce Patronne ! Je suis MAISON AI.<br>Demande-moi : prix du riz, menu du jour, liste des courses...<br>Je te réponds avec les VRAIS prix de Bamako !</div>
-</div>
-<div class="row">
-<input id="q" placeholder="Ex: Prix du riz à Bamako ?" onkeydown="if(event.key==='Enter') envoyer()">
-<button class="send" onclick="envoyer()">Envoyer ➤</button>
-</div>
-<small>Propulsé par tes 8 clés : Google + Serper + Exa + Gemini</small>
-</div>
-</div>
-
+<div class="box"><div id="chat"><div class="msg ai">👋 I ni ce Patronne ! Je suis MAISON AI.<br>Demande-moi : prix du riz, menu du jour, liste des courses...</div></div>
+<div class="row"><input id="q" placeholder="Ex: Prix du riz à Bamako ?" onkeydown="if(event.key==='Enter') envoyer()"><button class="send" onclick="envoyer()">Envoyer ➤</button></div>
+</div></div>
 <script>
-// ⚠️ REMPLACE ICI PAR TES 2 INFOS SUPABASE :
-const URL_FONCTION = "https://cowbXXXXXXXX.supabase.co/functions/v1/maison-univers-AI";
-const ANON_KEY = "COLLE-ICI-TA-CLE-ANON-PUBLIQUE";
-
+// ✅ URL DÉJÀ MISE POUR TOI :
+const URL_FONCTION = "https://cewbsshgyaafoqmywbfd.supabase.co/functions/v1/L--maison-univers-Al-";
+// 👇 TOI TU COLLES TA CLÉ ANON ICI, PAS MOI :
+const ANON_KEY = "METS-ICI-TA-CLE-ANON";
 const chat = document.getElementById('chat');
 const input = document.getElementById('q');
-
-function ajouter(texte, qui){
-  const d = document.createElement('div');
-  d.className = 'msg ' + qui;
-  d.textContent = texte;
-  chat.appendChild(d);
-  chat.scrollTop = chat.scrollHeight;
-  return d;
-}
-
-async function poser(texte){
-  input.value = texte;
-  envoyer();
-}
-
+function ajouter(texte, qui){ const d=document.createElement('div'); d.className='msg '+qui; d.textContent=texte; chat.appendChild(d); chat.scrollTop=chat.scrollHeight; return d; }
+async function poser(texte){ input.value=texte; envoyer(); }
 async function envoyer(){
-  const question = input.value.trim();
-  if(!question) return;
-  ajouter(question, 'me');
-  input.value = '';
-  const attente = ajouter("⏳ Je cherche les prix à Bamako...", 'ai');
+  const question=input.value.trim(); if(!question) return;
+  ajouter(question,'me'); input.value='';
+  const attente=ajouter("⏳ Je cherche les prix à Bamako...",'ai');
   try{
-    const res = await fetch(URL_FONCTION, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + ANON_KEY,
-        "apikey": ANON_KEY
-      },
-      body: JSON.stringify({ q: question })
-    });
-    const data = await res.json();
-    attente.textContent = data.reponse || "Je n'ai pas trouvé, réessaie Patronne.";
-  }catch(e){
-    attente.textContent = "Awa, petit problème de connexion. Vérifie ton URL et ta clé ANON, puis réessaie.";
-  }
+    const res=await fetch(URL_FONCTION,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+ANON_KEY,"apikey":ANON_KEY},body:JSON.stringify({q:question})});
+    const data=await res.json(); attente.textContent=data.reponse||"Je n'ai pas trouvé, réessaie Patronne.";
+  }catch(e){ attente.textContent="Awa, petit problème de connexion. Vérifie ton URL et ta clé ANON."; }
 }
 </script>
 </body>
