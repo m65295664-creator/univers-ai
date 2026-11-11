@@ -34,50 +34,49 @@ a{color:#00e5ff}
 <div class="header">
 <img src="file_00000000fa3481f6bdd04a1cd48d0156.png" alt="UNIVERS AI">
 <h1>UNIVERS AI</h1>
-<p>Le Plus Grand Cerveau • Explore • Crée • Communique<br>Mathias Diarra - Bamako, Mali 🇲🇱</p>
+<p>Le Plus Grand Cerveau • Explore • Cree • Communique<br>Mathias Diarra - Bamako, Mali</p>
 </div>
 <div class="tabs">
-<div class="tab active" onclick="setMode('chat',this)">💬 Chat</div>
-<div class="tab" onclick="setMode('image',this)">🎨 Image</div>
-<div class="tab" onclick="setMode('recherche',this)">🔍 Recherche</div>
+<div class="tab active" onclick="setMode('chat',this)">Chat</div>
+<div class="tab" onclick="setMode('image',this)">Image</div>
+<div class="tab" onclick="setMode('recherche',this)">Recherche</div>
 </div>
 <div id="chatBox">
-<div class="msg ai">Bonjour Patronne ! 👋🧠
+<div class="msg ai">Bonjour Patronne !
 
 Je suis UNIVERS AI - LE PLUS GRAND CERVEAU !
 
-Maintenant je peux répondre à TOUTES tes questions, comme une vraie personne !
+Je connais toute l histoire de mon createur Mathias Diarra.
 
-Pose-moi n'importe quoi :
-- Qui est le plus riche ?
-- Où est l'aéroport de Bamako ?
-- Qui est Modibo Keita ?
-- Explique-moi un cours
-- Donne-moi une recette
-- Tout ce que tu veux !
+Pose-moi n importe quoi :
+- Qui t a cree ?
+- C est qui son pere ?
+- C est qui sa mere ?
+- C est quoi son village ?
+- Quand est il ne ?
+- C est qui son frere ?
 
-Je te réponds en français simple et clair. Essaie-moi ! 🔥</div>
+Je te reponds en francais simple et clair. Essaie-moi !</div>
 </div>
-<div id="previewArea"><p>📷 Ta photo est prête :</p><img id="previewImg"><br><button onclick="sendPhotoToAI()">✨ Envoyer à l'IA</button> <button onclick="cancelPhoto()" style="background:#475569;color:white">Annuler</button></div>
+<div id="previewArea"><p>Ta photo est prete :</p><img id="previewImg"><br><button onclick="sendPhotoToAI()">Envoyer a l IA</button> <button onclick="cancelPhoto()" style="background:#475569;color:white">Annuler</button></div>
 <div class="inputArea">
 <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="showPreview(event)">
 <button id="photoBtn" onclick="document.getElementById('fileInput').click()">📷</button>
 <input id="userInput" placeholder="Pose-moi TOUTE question..." onkeypress="if(event.key==='Enter') sendMsg()">
-<button id="sendBtn" onclick="sendMsg()">Envoyer ➤</button>
+<button id="sendBtn" onclick="sendMsg()">Envoyer</button>
 </div>
-<p class="footer">MAISON UNIVERS AI - Mathias Diarra • Bamako, Mali 🇲🇱</p>
+<p class="footer">MAISON UNIVERS AI - Mathias Diarra - Bamako, Mali</p>
 <script>
 let mode='chat'; let currentPhoto=null; let lastPhotoInfo=''; let history=[];
-function setMode(m,el){mode=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');let txt=m==='chat'?"Mode Chat 🧠 ULTIME activé ! Pose-moi TOUTE question, je réfléchis comme ChatGPT !":m==='image'?"Mode Image 🎨 activé ! Décris l'image, je la crée vraiment !":"Mode Recherche 🔍 activé !";addMsg(txt,'ai');}
-function addMsg(text,type,imgSrc){let box=document.getElementById('chatBox');let d=document.createElement('div');d.className='msg '+type;d.innerText=text;if(imgSrc){let im=document.createElement('img');im.src=imgSrc;d.appendChild(im);}box.appendChild(d);box.scrollTop=box.scrollHeight;return d;}
+function setMode(m,el){mode=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');let txt=m==='chat'?"Mode Chat active ! Pose-moi TOUTE question":m==='image'?"Mode Image active ! Decris l image, je la cree":"Mode Recherche active !";addMsg(txt,'ai');}
+function addMsg(text,type,imgSrc){let box=document.getElementById('chatBox');let d=document.createElement('div');d.className='msg '+(type||'ai');d.innerText=text;if(imgSrc){let im=document.createElement('img');im.src=imgSrc;d.appendChild(im);}box.appendChild(d);box.scrollTop=box.scrollHeight;return d;}
 function showPreview(e){let f=e.target.files[0];if(!f)return;lastPhotoInfo="Nom: "+f.name+" | Taille: "+Math.round(f.size/1024)+" Ko";let r=new FileReader();r.onload=function(ev){currentPhoto=ev.target.result;document.getElementById('previewImg').src=currentPhoto;document.getElementById('previewArea').style.display='block';};r.readAsDataURL(f);}
 function cancelPhoto(){currentPhoto=null;document.getElementById('previewArea').style.display='none';document.getElementById('fileInput').value='';}
-function sendPhotoToAI(){if(!currentPhoto)return;addMsg("Voici ma photo, examine-la 📷",'user',currentPhoto);document.getElementById('previewArea').style.display='none';currentPhoto=null;setTimeout(()=>{addMsg("J'ai bien reçu ta photo ! 📷✨\n\n✅ "+lastPhotoInfo+"\n✅ Photo bien claire\n\nDis-moi en 1 phrase ce qu'il y a sur la photo : maison, personne, document, produit ? Et je vais t'expliquer tout en détail !",'ai');},600);}
+function sendPhotoToAI(){if(!currentPhoto)return;addMsg("Voici ma photo, examine-la",'user',currentPhoto);document.getElementById('previewArea').style.display='none';currentPhoto=null;setTimeout(()=>{addMsg("J ai bien recu ta photo !\n\n"+lastPhotoInfo+"\n\nDis-moi en 1 phrase ce qu il y a sur la photo : maison, personne, document, produit ? Et je vais t expliquer tout en detail !",'ai');},600);}
 
 async function askBigBrain(question){
-  // Le plus grand cerveau - IA réelle gratuite
-  let system = "let system = "Tu es UNIVERS AI, l'assistant de LA MAISON UNIVERS AI. Si quelqu'un te demande qui t'a cree, tu reponds clairement : C'est Mathias Diarra qui m'a cree, en 2026 dans sa chambre d'informatique. Il a decide de creer une AI pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l'intelligence, a travers la technologie mondiale. Mathias Diarra, le createur de LA MAISON UNIVERS AI, a travaille jour et nuit pour coder et programmer tous les outils dans son telephone, afin de me rendre plus fort en sagesse et en intelligence. Mathias Diarra est un eleve tres intelligent et tres respectueux de Bamako, Mali. De nationalite malienne, ne a Bamako, Mali, le 01 janvier 2007. Son pere s'appelle David et sa mere s'appelle Kondjiri Traore. Son propre village c'est Torodo, N'tjibougou. Mathias Diarra, createur de LA MAISON UNIVERS AI, grand frere de Guemba Diarra. Ne dans la famille Diarra.".";
-  let fullPrompt = system + "\n\nQuestion de l'utilisateur : " + question + "\n\nRéponds en français simple et clair :";
+  let system = "Tu es UNIVERS AI, assistante de LA MAISON UNIVERS AI, creee par Mathias Diarra a Bamako au Mali. HISTOIRE A CONNAITRE PAR COEUR : Le createur s appelle Mathias Diarra. Il a cree UNIVERS AI en 2026 dans sa chambre informatique. Il a decide de creer une AI pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Il a travaille jour et nuit pour coder et programmer tous les outils dans son telephone, afin de rendre son AI plus forte en sagesse et en intelligence. Son pere s appelle David. Sa mere s appelle Kondjiri Traore. Son village c est Torodo, N tjibougou. Il est ne a Bamako, Mali, le 01 janvier 2007, de nationalite malienne. Il est le grand frere de Guemba Diarra, ne dans la famille Diarra. President du Mali : General d Armee Assimi GOITA. Modibo Keita : 1er president du Mali, pere de l independance. Tu parles francais simple, clair, gentil, avec des phrases courtes. Tu reponds toujours. Si on te demande qui t a cree, tu donnes toute l histoire de Mathias Diarra.";
+  let fullPrompt = system + "\n\nQuestion : " + question + "\n\nReponds en francais simple et clair :";
   let url = "https://text.pollinations.ai/" + encodeURIComponent(fullPrompt) + "?model=openai";
   let res = await fetch(url);
   let text = await res.text();
@@ -87,38 +86,40 @@ async function askBigBrain(question){
 async function sendMsg(){
 let inp=document.getElementById('userInput');let txt=inp.value.trim();if(!txt)return;addMsg(txt,'user');inp.value='';
 let low=txt.toLowerCase();
-if(mode==='image'){let url="https://image.pollinations.ai/prompt/"+encodeURIComponent(txt+" , beautiful, high quality")+ "?width=512&height=512&seed="+Math.floor(Math.random()*99999);addMsg("Je crée ton image : "+txt+" 🎨... Attends 3 secondes",'ai');setTimeout(()=>{addMsg("Voici ton image ! 🎨✨",'ai',url);},500);return;}
-if(mode==='recherche'){addMsg("🔍 Je cherche pour toi : "+txt+"\n\n👉 Voir sur Google : https://www.google.com/search?q="+encodeURIComponent(txt),'ai');return;}
-// Réponses rapides pour ne pas attendre
-if(low.includes("bonjour")||low.includes("salut")){addMsg("Bonjour Patronne ! 👋 Comment 
+if(mode==='image'){let url="https://image.pollinations.ai/prompt/"+encodeURIComponent(txt+" , beautiful, high quality")+ "?width=512&height=512&seed="+Math.floor(Math.random()*99999);addMsg("Je cree ton image : "+txt+" ... Attends 3 secondes",'ai');setTimeout(()=>{addMsg("Voici ton image !",'ai',url);},500);return;}
+if(mode==='recherche'){addMsg("Je cherche pour toi : "+txt+"\n\nVoir sur Google : https://www.google.com/search?q="+encodeURIComponent(txt),'ai');return;}
+if(low.includes("bonjour")||low.includes("salut")){addMsg("Bonjour Patronne ! Comment tu vas ? Pose-moi n importe quelle question, je vais te repondre clairement !",'ai');return;}
+if(low.includes("merci")){addMsg("De rien Patronne ! C est avec plaisir ! Tu as une autre question ?",'ai');return;}
+if(low.includes("createur")||low.includes("fondateur")||low.includes("cree")||low.includes("creer")||low.includes("qui t")){addMsg("C est Mathias Diarra qui m a cree, en 2026 dans sa chambre informatique. Il a decide de creer une AI pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Mathias Diarra, le createur de LA MAISON UNIVERS AI, a travaille jour et nuit pour coder et programmer tous les outils dans son telephone, afin de me rendre plus forte en sagesse et en intelligence.",'ai');return;}
+if(low.includes("pere")||low.includes("papa")||low.includes("david")){addMsg("Le pere de Mathias Diarra s appelle David.",'ai');return;}
+if(low.includes("mere")||low.includes("maman")||low.includes("kondjiri")){addMsg("La mere de Mathias Diarra s appelle Kondjiri Traore.",'ai');return;}
+if(low.includes("village")||low.includes("torodo")){addMsg("Le village de Mathias Diarra c est Torodo, N tjibougou.",'ai');return;}
+if(low.includes("naissance")||low.includes("ne")||low.includes("2007")||low.includes("quand")){addMsg("Mathias Diarra est ne a Bamako, Mali, le 01 janvier 2007, de nationalite malienne.",'ai');return;}
+if(low.includes("frere")||low.includes("guemba")){addMsg("Mathias Diarra est le grand frere de Guemba Diarra, ne dans la famille Diarra.",'ai');return;}
+
+let typing=addMsg("Je reflechis... Attends 3 secondes, je prepare la meilleure reponse pour toi...","ai");
+try{
   let answer = await askBigBrain(txt);
-  if(low.includes("createur")||low.includes("fondateur")||low.includes("cree")){addMsg("C est Mathias Diarra qui ma cree, en 2026 dans sa chambre informatique. Il a decide de creer une AI pour que tous les eleves de Bamako comprennent la science et le savoir de l intelligence.");return;}
-if(low.includes("pere")||low.includes("papa")||low.includes("david")){addMsg("Le pere de Mathias Diarra sappelle David.");return;}
-if(low.includes("mere")||low.includes("maman")||low.includes("kondjiri")){addMsg("La mere de Mathias Diarra sappelle Kondjiri Traore.");return;}
-if(low.includes("village")||low.includes("torodo")){addMsg("Le village de Mathias Diarra c est Torodo, N tjibougou.");return;}
-if(low.includes("naissance")||low.includes("2007")){addMsg("Mathias Diarra est ne a Bamako, Mali, le 01 janvier 2007.");return;}
-if(low.includes("frere")||low.includes("guemba")){addMsg("Mathias Diarra est le grand frere de Guemba Diarra, ne dans la famille Diarra.");return;}
   if(answer && answer.length>5){
-    typing.innerText = "🧠 " + answer;
+    typing.innerText = answer;
   } else {
     throw new Error("vide");
   }
 }catch(e){
-  // Si la grande IA ne répond pas, on utilise Wikipédia en secours
   try{
-    let q=txt.replace(/^(qu'est|qui est|où|comment|pourquoi|c'est quoi)\s*/gi,"").trim();
+    let q=txt.trim();
     let sr=await fetch("https://fr.wikipedia.org/w/api.php?action=query&list=search&srsearch="+encodeURIComponent(q)+"&format=json&origin=*");
     let sd=await sr.json();
     if(sd.query && sd.query.search.length>0){
       let title=sd.query.search[0].title;
       let r2=await fetch("https://fr.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(title));
       let d2=await r2.json();
-      typing.innerText = "🧠 "+d2.title+"\n\n"+d2.extract+"\n\nTu veux que je t'explique plus simplement ?";
+      typing.innerText = d2.title+"\n\n"+d2.extract+"\n\nTu veux que je t explique plus simplement ?";
     } else {
-      typing.innerText = "Je n'ai pas pu me connecter au grand cerveau. Réessaie dans 5 secondes, ou pose ta question autrement. Vérifie aussi ta connexion internet.";
+      typing.innerText = "Je n ai pas pu me connecter au grand cerveau. Reessaie dans 5 secondes, ou pose ta question autrement. Verifie aussi ta connexion internet.";
     }
   }catch(e2){
-    typing.innerText = "Je n'ai pas pu me connecter. Vérifie ta connexion et réessaie. Sinon clique sur Recherche 🔍";
+    typing.innerText = "Je n ai pas pu me connecter. Verifie ta connexion et reessaie. Sinon clique sur Recherche";
   }
 }
 }
