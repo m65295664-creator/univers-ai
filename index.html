@@ -92,7 +92,12 @@ if(mode==='recherche'){addMsg("🔍 Je cherche pour toi : "+txt+"\n\n👉 Voir s
 // Réponses rapides pour ne pas attendre
 if(low.includes("bonjour")||low.includes("salut")){addMsg("Bonjour Patronne ! 👋 Comment tu vas ? Pose-moi n'importe quelle question, je vais te répondre clairement !",'ai');return;}
 if(low.includes("merci")){addMsg("De rien Patronne ! ❤️ C'est avec plaisir ! Tu as une autre question ?",'ai');return;}
-
+if(low.includes("qui t'a cree")||low.includes("createur")||low.includes("fondateur")){addMsg("🧠 C'est Mathias Diarra qui m'a créé, en 2026 dans sa chambre d'informatique. Il a décidé de créer une AI pour que tous les élèves de Bamako comprennent promptement la science et le savoir de l'intelligence, à travers la technologie mondiale.");return;}
+if(low.includes("pere")||low.includes("père")||low.includes("papa")||low.includes("david")){addMsg("🧠 Le père de Mathias Diarra s'appelle David.");return;}
+if(low.includes("mere")||low.includes("mère")||low.includes("maman")||low.includes("kondjiri")){addMsg("🧠 La mère de Mathias Diarra s'appelle Kondjiri Traoré.");return;}
+if(low.includes("village")||low.includes("torodo")){addMsg("🧠 Le village de Mathias Diarra c'est Torodo, N'tjibougou.");return;}
+if(low.includes("naissance")||low.includes("né")||low.includes("2007")){addMsg("🧠 Mathias Diarra est né à Bamako, Mali, le 01 janvier 2007, de nationalité malienne.");return;}
+if(low.includes("frere")||low.includes("frère")||low.includes("guemba")){addMsg("🧠 Mathias Diarra est le grand frère de Guemba Diarra, né dans la famille Diarra.");return;}
 let typing=addMsg("🧠 Je réfléchis... Attends 3 secondes, je prépare la meilleure réponse pour toi...","ai");
 try{
   let answer = await askBigBrain(txt);
