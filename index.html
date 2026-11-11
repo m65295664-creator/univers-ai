@@ -1,48 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MAISON AI - Par Mathias Diarra</title>
-<style>
-body{margin:0;font-family:Arial;background:#FFF8DC}
-.header{background:#1a8a2a;color:white;text-align:center;padding:15px;font-size:20px;font-weight:bold}
-.btns{display:flex;flex-wrap:wrap;gap:10px;padding:15px}
-.btns button{background:white;border:2px solid #1a8a2a;color:#1a8a2a;padding:10px 15px;border-radius:30px;font-weight:bold;font-size:15px}
-.chat{background:white;margin:10px;border-radius:15px;padding:15px;min-height:200px}
-.msg-ai{background:#FFF3D6;padding:10px;border-radius:10px;margin:8px 0}
-.msg-moi{background:#1a8a2a;color:white;padding:10px;border-radius:10px;margin:8px 0;text-align:right}
-.bar{display:flex;gap:10px;padding:10px;background:#FFF8DC;position:fixed;bottom:0;left:0;right:0}
-.bar input{flex:1;padding:12px;border-radius:20px;border:1px solid #ccc}
-.bar button{background:#FFD700;border:none;padding:12px 18px;border-radius:20px;font-weight:bold}
-</style>
-</head>
-<body>
-<div class="header">Marché à Bamako - MAISON AI</div>
-<div class="btns">
-<button onclick="demander('Prix du riz à Bamako en FCFA ? 1kg et sac 50kg')">🍚 Prix du riz</button>
-<button onclick="demander('Prix du mil à Bamako en FCFA ?')">🌽 Prix du mil</button>
-<button onclick="demander('Donne-moi le menu du jour pour une famille à Bamako')">🍲 Menu du jour</button>
-<button onclick="demander('Prix du poulet à Bamako en FCFA ?')">🍗 Prix poulet</button>
-<button onclick="demander('Fais-moi une liste de courses avec 20000F à Bamako')">🛒 Courses 20.000F</button>
-</div>
-<div class="chat" id="chat">
-<div class="msg-ai">👋 I ni ce Patronne ! Je suis MAISON AI. Demande-moi : prix du riz, menu du jour, liste des courses...</div>
-</div>
-<div style="height:70px"></div>
-<div class="bar">
-<input id="input-question" placeholder="Ex: Prix du riz à Bamako ?">
-<button onclick="envoyer()">Envoyer ➤</button>
-</div>
-
-<script>
-const SUPABASE_URL = "https://cewbsshgyaafoqmywbfd.supabase.co";
-const ANON_KEY = "sb_publishable_0C2634Ga6srjhaNMXnxg-1_d09c9CM";
-
 async function demander(question){
   const chat = document.getElementById("chat");
   chat.innerHTML += '<div class="msg-moi">'+question+'</div>';
-  chat.innerHTML += '<div class="msg-ai" id="temp">MAISON AI réfléchit... 🧠</div>';
+  chat.innerHTML += '<div class="msg-ai" id="temp">MAISON AI V2 réfléchit... 🧠✨</div>';
   try{
     const res = await fetch(SUPABASE_URL + "/functions/v1/smooth-task", {
       method: "POST",
@@ -54,21 +13,16 @@ async function demander(question){
       body: JSON.stringify({ message: question })
     });
     const data = await res.json();
-    let texte = data.reply || "Awa, pas de réponse";
+    // V2 dit "reponse", V1 disait "reply" - on comprend les 2 !
+    let texte = data.reponse || data.reply || data.response || data.output || data.text || data.answer || data.message || "";
+    if(!texte){
+      texte = "Awa, V2 a répondu : " + JSON.stringify(data).substring(0, 300);
+    }
     texte = texte.replace(/\$/g, "").replace(/\\/g, "");
     texte = texte.replace(/\n/g, "<br>");
     document.getElementById("temp").innerHTML = texte;
     document.getElementById("temp").removeAttribute("id");
   } catch(e){
-    document.getElementById("temp").innerHTML = "Awa, petit problème de connexion. Vérifie ton internet !";
+    document.getElementById("temp").innerHTML = "Awa, erreur : " + e.message;
   }
 }
-function envoyer(){
-  const q = document.getElementById("input-question").value;
-  if(!q) return;
-  document.getElementById("input-question").value = "";
-  demander(q);
-}
-</script>
-</body>
-</html>
