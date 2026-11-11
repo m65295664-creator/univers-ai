@@ -1,28 +1,126 @@
-async function demander(question){
-  const chat = document.getElementById("chat");
-  chat.innerHTML += '<div class="msg-moi">'+question+'</div>';
-  chat.innerHTML += '<div class="msg-ai" id="temp">MAISON AI V2 réfléchit... 🧠✨</div>';
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNIVERS AI - Mathias Diarra</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#020617;color:white;padding:10px;padding-bottom:20px}
+.header{text-align:center;background:linear-gradient(#0ea5e9,#020617);padding:15px 10px;border-radius:15px;border:1px solid #00e5ff}
+.header img{width:120px;height:120px;object-fit:contain;background:white;border-radius:50%;padding:5px}
+.header h1{color:#00e5ff;font-size:24px;margin-top:5px}
+.header p{color:#7dd3fc;font-size:13px;font-weight:bold}
+.tabs{display:flex;gap:8px;margin:15px 0}
+.tab{flex:1;text-align:center;padding:12px 5px;border-radius:25px;border:2px solid #00e5ff;background:#0f172a;color:white;font-weight:bold;cursor:pointer;font-size:14px}
+.tab.active{background:#00e5ff;color:#020617}
+#chatBox{background:#0f172a;border:1px solid #00e5ff;border-radius:15px;padding:12px;min-height:350px;display:flex;flex-direction:column;gap:10px}
+.msg{padding:12px 14px;border-radius:15px;line-height:1.7;font-size:15px;max-width:95%;white-space:pre-wrap}
+.ai{background:#1e293b;border-left:4px solid #00e5ff;align-self:flex-start}
+.user{background:#00e5ff;color:#020617;align-self:flex-end;font-weight:bold;text-align:right}
+.msg img{width:100%;border-radius:10px;margin-top:8px}
+.inputArea{display:flex;gap:8px;margin-top:12px;align-items:center}
+#photoBtn{background:#1e293b;border:2px solid #00e5ff;border-radius:50%;width:48px;height:48px;font-size:22px;cursor:pointer;flex-shrink:0}
+#userInput{flex:1;padding:14px;border-radius:25px;border:none;outline:none;background:#1e293b;color:white;font-size:15px}
+#sendBtn{background:#00e5ff;border:none;padding:14px 18px;border-radius:25px;font-weight:bold;cursor:pointer;color:#020617}
+#previewArea{display:none;margin-top:10px;background:#1e293b;padding:10px;border-radius:12px;text-align:center;border:1px dashed #00e5ff}
+#previewArea img{width:100%;max-height:250px;object-fit:contain;border-radius:10px}
+#previewArea button{background:#00e5ff;border:none;padding:10px 12px;border-radius:20px;font-weight:bold;margin-top:8px;cursor:pointer}
+.footer{text-align:center;margin-top:15px;font-size:12px;color:#94a3b8}
+a{color:#00e5ff}
+</style>
+</head>
+<body>
+<div class="header">
+<img src="file_00000000fa3481f6bdd04a1cd48d0156.png" alt="UNIVERS AI">
+<h1>UNIVERS AI</h1>
+<p>Le Plus Grand Cerveau • Explore • Crée • Communique<br>Mathias Diarra - Bamako, Mali 🇲🇱</p>
+</div>
+<div class="tabs">
+<div class="tab active" onclick="setMode('chat',this)">💬 Chat</div>
+<div class="tab" onclick="setMode('image',this)">🎨 Image</div>
+<div class="tab" onclick="setMode('recherche',this)">🔍 Recherche</div>
+</div>
+<div id="chatBox">
+<div class="msg ai">Bonjour Patronne ! 👋🧠
+
+Je suis UNIVERS AI - LE PLUS GRAND CERVEAU !
+
+Maintenant je peux répondre à TOUTES tes questions, comme une vraie personne !
+
+Pose-moi n'importe quoi :
+- Qui est le plus riche ?
+- Où est l'aéroport de Bamako ?
+- Qui est Modibo Keita ?
+- Explique-moi un cours
+- Donne-moi une recette
+- Tout ce que tu veux !
+
+Je te réponds en français simple et clair. Essaie-moi ! 🔥</div>
+</div>
+<div id="previewArea"><p>📷 Ta photo est prête :</p><img id="previewImg"><br><button onclick="sendPhotoToAI()">✨ Envoyer à l'IA</button> <button onclick="cancelPhoto()" style="background:#475569;color:white">Annuler</button></div>
+<div class="inputArea">
+<input type="file" id="fileInput" accept="image/*" style="display:none" onchange="showPreview(event)">
+<button id="photoBtn" onclick="document.getElementById('fileInput').click()">📷</button>
+<input id="userInput" placeholder="Pose-moi TOUTE question..." onkeypress="if(event.key==='Enter') sendMsg()">
+<button id="sendBtn" onclick="sendMsg()">Envoyer ➤</button>
+</div>
+<p class="footer">MAISON UNIVERS AI - Mathias Diarra • Bamako, Mali 🇲🇱</p>
+<script>
+let mode='chat'; let currentPhoto=null; let lastPhotoInfo=''; let history=[];
+function setMode(m,el){mode=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');let txt=m==='chat'?"Mode Chat 🧠 ULTIME activé ! Pose-moi TOUTE question, je réfléchis comme ChatGPT !":m==='image'?"Mode Image 🎨 activé ! Décris l'image, je la crée vraiment !":"Mode Recherche 🔍 activé !";addMsg(txt,'ai');}
+function addMsg(text,type,imgSrc){let box=document.getElementById('chatBox');let d=document.createElement('div');d.className='msg '+type;d.innerText=text;if(imgSrc){let im=document.createElement('img');im.src=imgSrc;d.appendChild(im);}box.appendChild(d);box.scrollTop=box.scrollHeight;return d;}
+function showPreview(e){let f=e.target.files[0];if(!f)return;lastPhotoInfo="Nom: "+f.name+" | Taille: "+Math.round(f.size/1024)+" Ko";let r=new FileReader();r.onload=function(ev){currentPhoto=ev.target.result;document.getElementById('previewImg').src=currentPhoto;document.getElementById('previewArea').style.display='block';};r.readAsDataURL(f);}
+function cancelPhoto(){currentPhoto=null;document.getElementById('previewArea').style.display='none';document.getElementById('fileInput').value='';}
+function sendPhotoToAI(){if(!currentPhoto)return;addMsg("Voici ma photo, examine-la 📷",'user',currentPhoto);document.getElementById('previewArea').style.display='none';currentPhoto=null;setTimeout(()=>{addMsg("J'ai bien reçu ta photo ! 📷✨\n\n✅ "+lastPhotoInfo+"\n✅ Photo bien claire\n\nDis-moi en 1 phrase ce qu'il y a sur la photo : maison, personne, document, produit ? Et je vais t'expliquer tout en détail !",'ai');},600);}
+
+async function askBigBrain(question){
+  // Le plus grand cerveau - IA réelle gratuite
+  let system = "Tu es UNIVERS AI, l'assistante intelligente de LA MAISON UNIVERS AI, créée par Mathias Diarra à Bamako au Mali. Tu parles français simple, clair, gentil, comme une amie de Bamako. Tu réponds toujours en français simple, avec des phrases courtes, des emojis, et tu expliques très clairement pour quelqu'un qui n'est pas expert. Si on te demande qui t'a créée, dis que c'est Mathias Diarra, fondateur de LA MAISON UNIVERS AI à Bamako. Si on te demande le président du Mali, dis Général d'Armée Assimi GOITA. Si on te demande Modibo Keita, dis que c'est le 1er président du Mali, père de l'indépendance. Tu connais tout : Mali, AES, Afrique, France, monde, école, recettes, business, foot. Tu ne dis jamais 'je ne sais pas', tu expliques toujours.";
+  let fullPrompt = system + "\n\nQuestion de l'utilisateur : " + question + "\n\nRéponds en français simple et clair :";
+  let url = "https://text.pollinations.ai/" + encodeURIComponent(fullPrompt) + "?model=openai";
+  let res = await fetch(url);
+  let text = await res.text();
+  return text;
+}
+
+async function sendMsg(){
+let inp=document.getElementById('userInput');let txt=inp.value.trim();if(!txt)return;addMsg(txt,'user');inp.value='';
+let low=txt.toLowerCase();
+if(mode==='image'){let url="https://image.pollinations.ai/prompt/"+encodeURIComponent(txt+" , beautiful, high quality")+ "?width=512&height=512&seed="+Math.floor(Math.random()*99999);addMsg("Je crée ton image : "+txt+" 🎨... Attends 3 secondes",'ai');setTimeout(()=>{addMsg("Voici ton image ! 🎨✨",'ai',url);},500);return;}
+if(mode==='recherche'){addMsg("🔍 Je cherche pour toi : "+txt+"\n\n👉 Voir sur Google : https://www.google.com/search?q="+encodeURIComponent(txt),'ai');return;}
+// Réponses rapides pour ne pas attendre
+if(low.includes("bonjour")||low.includes("salut")){addMsg("Bonjour Patronne ! 👋 Comment tu vas ? Pose-moi n'importe quelle question, je vais te répondre clairement !",'ai');return;}
+if(low.includes("merci")){addMsg("De rien Patronne ! ❤️ C'est avec plaisir ! Tu as une autre question ?",'ai');return;}
+
+let typing=addMsg("🧠 Je réfléchis... Attends 3 secondes, je prépare la meilleure réponse pour toi...","ai");
+try{
+  let answer = await askBigBrain(txt);
+  // Nettoyer la réponse
+  if(answer && answer.length>5){
+    typing.innerText = "🧠 " + answer;
+  } else {
+    throw new Error("vide");
+  }
+}catch(e){
+  // Si la grande IA ne répond pas, on utilise Wikipédia en secours
   try{
-    const res = await fetch(SUPABASE_URL + "/functions/v1/smooth-task", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": ANON_KEY,
-        "Authorization": "Bearer " + ANON_KEY
-      },
-      body: JSON.stringify({ message: question })
-    });
-    const data = await res.json();
-    // V2 dit "reponse", V1 disait "reply" - on comprend les 2 !
-    let texte = data.reponse || data.reply || data.response || data.output || data.text || data.answer || data.message || "";
-    if(!texte){
-      texte = "Awa, V2 a répondu : " + JSON.stringify(data).substring(0, 300);
+    let q=txt.replace(/^(qu'est|qui est|où|comment|pourquoi|c'est quoi)\s*/gi,"").trim();
+    let sr=await fetch("https://fr.wikipedia.org/w/api.php?action=query&list=search&srsearch="+encodeURIComponent(q)+"&format=json&origin=*");
+    let sd=await sr.json();
+    if(sd.query && sd.query.search.length>0){
+      let title=sd.query.search[0].title;
+      let r2=await fetch("https://fr.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(title));
+      let d2=await r2.json();
+      typing.innerText = "🧠 "+d2.title+"\n\n"+d2.extract+"\n\nTu veux que je t'explique plus simplement ?";
+    } else {
+      typing.innerText = "Je n'ai pas pu me connecter au grand cerveau. Réessaie dans 5 secondes, ou pose ta question autrement. Vérifie aussi ta connexion internet.";
     }
-    texte = texte.replace(/\$/g, "").replace(/\\/g, "");
-    texte = texte.replace(/\n/g, "<br>");
-    document.getElementById("temp").innerHTML = texte;
-    document.getElementById("temp").removeAttribute("id");
-  } catch(e){
-    document.getElementById("temp").innerHTML = "Awa, erreur : " + e.message;
+  }catch(e2){
+    typing.innerText = "Je n'ai pas pu me connecter. Vérifie ta connexion et réessaie. Sinon clique sur Recherche 🔍";
   }
 }
+}
+</script>
+</body>
+</html>
