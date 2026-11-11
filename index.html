@@ -1,57 +1,25 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LA MAISON UNIVERS AI - Bamako</title>
-<style>
-*{box-sizing:border-box} body{margin:0;font-family:Arial;background:#FFF8E1;color:#222}
-header{background:#008000;color:white;padding:18px;text-align:center}
-header h1{margin:0;font-size:22px} header p{margin:5px 0 0;opacity:.9}
-.wrap{max-width:700px;margin:auto;padding:15px}
-.quick{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-.quick button{border:1px solid #008000;background:white;color:#008000;padding:8px 12px;border-radius:20px;cursor:pointer;font-weight:bold}
-.box{background:white;border-radius:15px;padding:15px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
-#chat{height:380px;overflow:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
-.msg{padding:10px 12px;border-radius:12px;max-width:85%;line-height:1.5;font-size:15px;white-space:pre-wrap}
-.me{background:#008000;color:white;align-self:flex-end}
-.ai{background:#F1F1F1;align-self:flex-start}
-.row{display:flex;gap:8px}
-input{flex:1;padding:12px;border:1px solid #ddd;border-radius:12px;font-size:16px}
-button.send{background:#FFD700;border:none;padding:12px 18px;border-radius:12px;font-weight:bold;cursor:pointer}
-</style>
-</head>
-<body>
-<header><h1>🇲🇱 LA MAISON UNIVERS AI</h1><p>Ta Maman Malienne Intelligente - Prix, Menu, Marché à Bamako</p></header>
-<div class="wrap">
-<div class="quick">
-<button onclick="poser('Prix du riz à Bamako ?')">🍚 Prix du riz</button>
-<button onclick="poser('Prix du mil et du maïs à Bamako ?')">🌽 Prix du mil</button>
-<button onclick="poser('Menu du jour pour famille de 6 personnes à Bamako, pas cher ?')">🍲 Menu du jour</button>
-<button onclick="poser('Prix du poulet bicyclette à Bamako ?')">🍗 Prix poulet</button>
-<button onclick="poser('Liste des courses pour la semaine pour 20000 FCFA ?')">🛒 Courses 20.000F</button>
-</div>
-<div class="box"><div id="chat"><div class="msg ai">👋 I ni ce Patronne ! Je suis MAISON AI.<br>Demande-moi : prix du riz, menu du jour, liste des courses...</div></div>
-<div class="row"><input id="q" placeholder="Ex: Prix du riz à Bamako ?" onkeydown="if(event.key==='Enter') envoyer()"><button class="send" onclick="envoyer()">Envoyer ➤</button></div>
-</div></div>
-<script>
-// ✅ URL DÉJÀ MISE POUR TOI :
-const URL_FONCTION = "https://cewbsshgyaafoqmywbfd.supabase.co/functions/v1/L--maison-univers-Al-";
-// 👇 TOI TU COLLES TA CLÉ ANON ICI, PAS MOI :
-const ANON_KEY = "sb_publishable_0C2634cGa6sr-jhaMNxqng_1-d09c3M";
-const chat = document.getElementById('chat');
-const input = document.getElementById('q');
-function ajouter(texte, qui){ const d=document.createElement('div'); d.className='msg '+qui; d.textContent=texte; chat.appendChild(d); chat.scrollTop=chat.scrollHeight; return d; }
-async function poser(texte){ input.value=texte; envoyer(); }
-async function envoyer(){
-  const question=input.value.trim(); if(!question) return;
-  ajouter(question,'me'); input.value='';
-  const attente=ajouter("⏳ Je cherche les prix à Bamako...",'ai');
-  try{
-    const res=await fetch(URL_FONCTION,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+ANON_KEY,"apikey":ANON_KEY},body:JSON.stringify({q:question})});
-    const data=await res.json(); attente.textContent=data.reponse||"Je n'ai pas trouvé, réessaie Patronne.";
-  }catch(e){ attente.textContent="Awa, petit problème de connexion. Vérifie ton URL et ta clé ANON."; }
+// CODE POUR TON SITE 64-creator.github.io - BRANCHEMENT MAISON AI
+async function demanderAMaisonAI(question) {
+  const reponseDiv = document.getElementById("reponse");
+  reponseDiv.innerHTML = "MAISON AI réfléchit... 🧠";
+
+  try {
+    const res = await fetch("https://cewbsshgyaafoqmywbfd.supabase.co/functions/v1/smooth-task", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: question })
+    });
+    const data = await res.json();
+    let texte = data.reply || "Awa, petit problème";
+
+    // On nettoie les $ des maths pour que ça s'affiche bien
+    texte = texte.replace(/\$/g, "").replace(/\\/g, "");
+
+    // On transforme les retours à la ligne en <br> pour que ça soit beau
+    texte = texte.replace(/\n/g, "<br>");
+
+    reponseDiv.innerHTML = texte;
+  } catch (e) {
+    reponseDiv.innerHTML = "Awa Patronne, vérifie ta connexion internet et réessaie !";
+  }
 }
-</script>
-</body>
-</html>
