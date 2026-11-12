@@ -40,7 +40,7 @@ body{background:#020617;color:white;padding:10px;padding-bottom:20px}
 <div class="header">
 <img src="file_00000000fa3481f6bdd04a1cd48d0156.png" alt="UNIVERS AI">
 <h1>UNIVERS AI</h1>
-<p id="headerSub">OpenRouter + Exa + Gemini • Architecture Pro 2026<br>Mathias Diarra - Bamako, Mali</p>
+<p>OpenRouter + Exa + Gemini - Architecture Pro 2026<br>Mathias Diarra - Bamako, Mali</p>
 </div>
 
 <div class="langBox">
@@ -67,7 +67,7 @@ body{background:#020617;color:white;padding:10px;padding-bottom:20px}
 <option value="son">🇲🇱 Songhaï</option>
 <option value="dyu">🇲🇱 Dioula</option>
 </select>
-<p id="langInfo" style="font-size:12px;margin-top:6px;color:#7dd3fc">Langue actuelle : Français. UNIVERS AI va répondre et chercher dans cette langue.</p>
+<p id="langInfo" style="font-size:12px;margin-top:6px;color:#7dd3fc">Langue actuelle : Français.</p>
 </div>
 
 <div class="keysBox">
@@ -85,8 +85,8 @@ body{background:#020617;color:white;padding:10px;padding-bottom:20px}
 <div class="tab" onclick="setMode('recherche',this)">🔍 Recherche</div>
 </div>
 <div id="chatBox">
-<div class="msg ai" id="welcomeMsg">Bonjour Patronne !
-Je suis UNIVERS AI V2 - Propre, Rapide, Sans Faute !
+<div class="msg ai">Bonjour Patronne !
+Je suis UNIVERS AI V2.1 - Propre, Rapide, Sans Faute !
 - Cerveau : OpenRouter
 - Recherche : Exa
 - Secours : Gemini
@@ -94,11 +94,11 @@ Je suis UNIVERS AI V2 - Propre, Rapide, Sans Faute !
 
 Choisis ta langue en haut, puis pose-moi :
 - Qui a gagné la coupe du monde 2026 ?
-- Le ballon d'or 2026 ?
+- Le ballon d or 2026 ?
 - Raconte-moi un proverbe qui fait sourire ?
-- C'est qui le plus riche du Mali ?</div>
+- C est qui le plus riche du Mali ?</div>
 </div>
-<div id="previewArea"><p>Ta photo est prête :</p><img id="previewImg"><br><button onclick="sendPhotoToAI()">Envoyer à l'IA</button> <button onclick="cancelPhoto()" style="background:#475569;color:white">Annuler</button></div>
+<div id="previewArea"><p>Ta photo est prête :</p><img id="previewImg"><br><button onclick="sendPhotoToAI()">Envoyer à l IA</button> <button onclick="cancelPhoto()" style="background:#475569;color:white">Annuler</button></div>
 <div class="inputArea">
 <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="showPreview(event)">
 <button id="photoBtn" onclick="document.getElementById('fileInput').click()">📷</button>
@@ -107,76 +107,73 @@ Choisis ta langue en haut, puis pose-moi :
 </div>
 <p class="footer">MAISON UNIVERS AI 2026 - OpenRouter + Exa + Gemini - Mathias Diarra - Bamako</p>
 <script>
-// ===== UNIVERS AI V2 - AUCUNE CLE EN DUR - 100% SECURISE =====
 let OPENROUTER_KEY = localStorage.getItem("UNIVERS_OPENROUTER") || "";
 let EXA_KEY = localStorage.getItem("UNIVERS_EXA") || "";
 let GEMINI_KEY = localStorage.getItem("UNIVERS_GEMINI") || "";
 let currentLang = localStorage.getItem("UNIVERS_LANG") || "fr";
-document.getElementById('langSelect').value = currentLang;
-if(OPENROUTER_KEY) document.getElementById('k1').value = OPENROUTER_KEY;
-if(EXA_KEY) document.getElementById('k2').value = EXA_KEY;
-if(GEMINI_KEY) document.getElementById('k3').value = GEMINI_KEY;
+document.getElementById("langSelect").value = currentLang;
+if(OPENROUTER_KEY) document.getElementById("k1").value = OPENROUTER_KEY;
+if(EXA_KEY) document.getElementById("k2").value = EXA_KEY;
+if(GEMINI_KEY) document.getElementById("k3").value = GEMINI_KEY;
 updateStatus();
 applyLangUI();
-
 const LANGS = {
-fr:{name:"Français", ask:"Pose-moi une question...", send:"Envoyer", hello:"Bonjour Patronne ! Je suis UNIVERS AI V2 - Propre, Rapide, Sans Faute !", search:"Je cherche avec Exa... Attends 2 secondes...", needKeys:"Patronne, mets d'abord tes 3 clés en haut et clique Sauvegarder.", prompt:"Réponds en FRANÇAIS, simple, clair, phrases courtes. Ne jamais inventer. Utilise seulement les résultats de recherche."},
-bm:{name:"Bambara", ask:"N'ningali fen o fen...", send:"Ci", hello:"I ni ce Patronne ! Ne ye UNIVERS AI V2 ye - Saniman, Teliya, Fili te a la !", search:"N b'a nyini Exa fè... A to fo dɔɔnin...", needKeys:"Patronne, i ka cle 3 fɔlɔ da a kan, ka Sauvegarder digi.", prompt:"Réponds en BAMBARA (Bamanankan), simple et clair. Ne jamais inventer. Utilise seulement les résultats de recherche."},
-en:{name:"English", ask:"Ask me a question...", send:"Send", hello:"Hello Boss ! I am UNIVERS AI V2 - Clean, Fast, No Mistake !", search:"I am searching with Exa... Wait 2 seconds...", needKeys:"Boss, put your 3 keys on top first and click Save.", prompt:"Answer in ENGLISH, simple, clear, short sentences. Never invent. Use only search results."},
-es:{name:"Español", ask:"Hazme una pregunta...", send:"Enviar", hello:"¡Hola Jefa! Soy UNIVERS AI V2 - Limpio, Rápido, Sin Errores!", search:"Estoy buscando con Exa... Espera 2 segundos...", needKeys:"Jefa, pon primero tus 3 claves arriba y pulsa Guardar.", prompt:"Responde en ESPAÑOL, simple, claro, frases cortas. Nunca inventes. Usa solo los resultados de búsqueda."},
-ar:{name:"العربية", ask:"اسألني سؤالاً...", send:"إرسال", hello:"مرحبا سيدتي! أنا UNIVERS AI V2 - نظيف، سريع، بدون أخطاء!", search:"أبحث مع Exa... انتظر ثانيتين...", needKeys:"سيدتي، ضعي مفاتيحك الثلاثة في الأعلى أولاً واضغطي حفظ.", prompt:"Answer in ARABIC, simple and clear. Never invent. Use only search results."},
-pt:{name:"Português", ask:"Faça-me uma pergunta...", send:"Enviar", hello:"Olá Chefe! Eu sou UNIVERS AI V2 - Limpo, Rápido, Sem Erros!", search:"Estou a pesquisar com Exa... Espera 2 segundos...", needKeys:"Chefe, coloca primeiro as tuas 3 chaves em cima e clica Guardar.", prompt:"Responde em PORTUGUÊS, simples, claro. Nunca inventes. Usa só os resultados da pesquisa."},
-de:{name:"Deutsch", ask:"Stelle mir eine Frage...", send:"Senden", hello:"Hallo Chefin! Ich bin UNIVERS AI V2 - Sauber, Schnell, Fehlerfrei!", search:"Ich suche mit Exa... Warte 2 Sekunden...", needKeys:"Chefin, trage zuerst deine 3 Schlüssel oben ein und klicke Speichern.", prompt:"Antworte auf DEUTSCH, einfach und klar. Erfinde nie etwas. Nutze nur Suchergebnisse."},
-it:{name:"Italiano", ask:"Fammi una domanda...", send:"Invia", hello:"Ciao Capo! Sono UNIVERS AI V2 - Pulito, Veloce, Senza Errori!", search:"Sto cercando con Exa... Aspetta 2 secondi...", needKeys:"Capo, metti prima le tue 3 chiavi in alto e clicca Salva.", prompt:"Rispondi in ITALIANO, semplice e chiaro. Non inventare mai. Usa solo i risultati di ricerca."},
-zh:{name:"中文", ask:"问我一个问题...", send:"发送", hello:"你好老板！我是 UNIVERS AI V2 - 干净、快速、无错误！", search:"我正在用 Exa 搜索...请等2秒...", needKeys:"老板，请先在上面输入你的3个密钥，然后点击保存。", prompt:"Answer in CHINESE, simple and clear. Never invent. Use only search results."},
-hi:{name:"हिन्दी", ask:"मुझसे कोई सवाल पूछें...", send:"भेजें", hello:"नमस्ते बॉस! मैं UNIVERS AI V2 हूँ - साफ, तेज़, बिना गलती!", search:"मैं Exa से खोज रहा हूँ... 2 सेकंड प्रतीक्षा करें...", needKeys:"बॉस, पहले ऊपर अपनी 3 चाबियाँ डालें और सहेजें पर क्लिक करें।", prompt:"Answer in HINDI, simple and clear. Never invent. Use only search results."},
-ru:{name:"Русский", ask:"Задай мне вопрос...", send:"Отправить", hello:"Привет, Босс! Я UNIVERS AI V2 - Чистый, Быстрый, Без Ошибок!", search:"Ищу с Exa... Подожди 2 секунды...", needKeys:"Босс, сначала введи свои 3 ключа наверху и нажми Сохранить.", prompt:"Answer in RUSSIAN, simple and clear. Never invent. Use only search results."},
-tr:{name:"Türkçe", ask:"Bana bir soru sor...", send:"Gönder", hello:"Merhaba Patron! Ben UNIVERS AI V2 - Temiz, Hızlı, Hatasız!", search:"Exa ile arıyorum... 2 saniye bekle...", needKeys:"Patron, önce yukarıya 3 anahtarını gir ve Kaydet'e tıkla.", prompt:"Answer in TURKISH, simple and clear. Never invent. Use only search results."},
-sw:{name:"Kiswahili", ask:"Niulize swali...", send:"Tuma", hello:"Habari Boss! Mimi ni UNIVERS AI V2 - Safi, Haraka, Bila Makosa!", search:"Ninatafuta na Exa... Subiri sekunde 2...", needKeys:"Boss, weka funguo zako 3 hapo juu kwanza na ubonyeze Hifadhi.", prompt:"Answer in SWAHILI, simple and clear. Never invent. Use only search results."},
-ha:{name:"Hausa", ask:"Tambaye ni tambaya...", send:"Aika", hello:"Sannu Boss! Ni ne UNIVERS AI V2 - Tsaftace, Mai Sauri, Ba Kuskure!", search:"Ina bincike da Exa... Jira seconds 2...", needKeys:"Boss, saka maɓallanka 3 a sama da farko ka danna Ajiye.", prompt:"Answer in HAUSA, simple and clear. Never invent. Use only search results."},
-yo:{name:"Yoruba", ask:"Beere lọwọ mi ibeere...", send:"Firanṣẹ", hello:"Ẹ n lẹ Boss! Emi ni UNIVERS AI V2 - Mọ, Yara, Laisi Aṣiṣe!", search:"Mo n wa pẹlu Exa... Duro iṣẹju 2...", needKeys:"Boss, fi awọn bọtini 3 rẹ si oke akọkọ ki o tẹ Fipamọ.", prompt:"Answer in YORUBA, simple and clear. Never invent. Use only search results."},
-ig:{name:"Igbo", ask:"Jụọ m ajụjụ...", send:"Zipu", hello:"Ndewo Boss! Abụ m UNIVERS AI V2 - Dị Ọcha, Ọsọ, Enweghị Njehie!", search:"Ana m achọ na Exa... Chere sekọnd 2...", needKeys:"Boss, tinye igodo 3 gị n'elu mbụ wee pịa Chekwa.", prompt:"Answer in IGBO, simple and clear. Never invent. Use only search results."},
-wo:{name:"Wolof", ask:"Laaj ma laaj...", send:"Yónne", hello:"Salaam Boss! Man laa UNIVERS AI V2 - Set, Gaaw, Amul Njuumte!", search:"Maa ngi seet ak Exa... Xaara 2 sekon...", needKeys:"Boss, dugal sa 3 clés ci kaw, te bësal Sauvegarder.", prompt:"Answer in WOLOF, simple and clear. Never invent. Use only search results."},
-ff:{name:"Fulfulde", ask:"Lamndam lamndal...", send:"Nul", hello:"Jam Boss! Mi woni UNIVERS AI V2 - Laaɓuɗo, Kesiɗo, Alaa Fali!", search:"Miɗo tefude e Exa... Haaɗo sekon 2...", needKeys:"Boss, wattu coktirɗe maa 3 dow, a ɓuuɓu Danndo.", prompt:"Answer in FULFULDE, simple and clear. Never invent. Use only search results."},
-son:{name:"Songhaï", ask:"Hã buru hã...", send:"Samba", hello:"Fofo Boss! Ay ga UNIVERS AI V2 - Hanse, Caha, Sanda Taali si!", search:"Ay go te hãn Exa ra... Kotto sekon 2...", needKeys:"Boss, dan ni cle 3 ni beene, ka Sauvegarder digi.", prompt:"Answer in SONGHAI, simple and clear. Never invent. Use only search results."},
-dyu:{name:"Dioula", ask:"N'ningali...", send:"Ci", hello:"I ni ce Patronne! Ne ye UNIVERS AI V2 ye!", search:"N b'a nyini Exa fè...", needKeys:"Patronne, i ka cle 3 da a kan fɔlɔ.", prompt:"Answer in DIOULA, simple and clear. Never invent. Use only search results."}
+fr:{name:"Francais", ask:"Pose-moi une question...", send:"Envoyer", hello:"Bonjour Patronne ! Je suis UNIVERS AI V2.1 - Propre, Rapide, Sans Faute !", search:"Je cherche avec Exa... Attends 2 secondes...", needKeys:"Patronne, mets dabord tes 3 cles en haut et clique Sauvegarder.", prompt:"Reponds en FRANCAIS, simple, clair, phrases courtes. Ne jamais inventer. Utilise seulement les resultats de recherche."},
+bm:{name:"Bambara", ask:"Ningali fen o fen...", send:"Ci", hello:"I ni ce Patronne ! Ne ye UNIVERS AI V2.1 ye - Saniman, Teliya, Fili te a la !", search:"N ba nyini Exa fe... A to fo doni...", needKeys:"Patronne, i ka cle 3 folo da a kan, ka Sauvegarder digi.", prompt:"Reponds en BAMBARA, simple et clair. Ne jamais inventer. Utilise seulement les resultats de recherche."},
+en:{name:"English", ask:"Ask me a question...", send:"Send", hello:"Hello Boss ! I am UNIVERS AI V2.1 - Clean, Fast, No Mistake !", search:"I am searching with Exa... Wait 2 seconds...", needKeys:"Boss, put your 3 keys on top first and click Save.", prompt:"Answer in ENGLISH, simple, clear, short sentences. Never invent. Use only search results."},
+es:{name:"Espanol", ask:"Hazme una pregunta...", send:"Enviar", hello:"Hola Jefa ! Soy UNIVERS AI V2.1 - Limpio, Rapido, Sin Errores !", search:"Estoy buscando con Exa... Espera 2 segundos...", needKeys:"Jefa, pon primero tus 3 claves arriba y pulsa Guardar.", prompt:"Responde en ESPANOL, simple, claro, frases cortas. Nunca inventes. Usa solo los resultados de busqueda."},
+ar:{name:"Arabe", ask:"Ask me a question...", send:"Send", hello:"Hello Boss ! I am UNIVERS AI V2.1 !", search:"I am searching with Exa... Wait 2 seconds...", needKeys:"Boss, put your 3 keys on top first.", prompt:"Answer in ARABIC, simple and clear. Never invent. Use only search results."},
+pt:{name:"Portugues", ask:"Faz-me uma pergunta...", send:"Enviar", hello:"Ola Chefe ! Eu sou UNIVERS AI V2.1 - Limpo, Rapido, Sem Erros !", search:"Estou a pesquisar com Exa... Espera 2 segundos...", needKeys:"Chefe, coloca primeiro as tuas 3 chaves em cima e clica Guardar.", prompt:"Responde em PORTUGUES, simples, claro. Nunca inventes. Usa so os resultados da pesquisa."},
+de:{name:"Deutsch", ask:"Stelle mir eine Frage...", send:"Senden", hello:"Hallo Chefin ! Ich bin UNIVERS AI V2.1 - Sauber, Schnell, Fehlerfrei !", search:"Ich suche mit Exa... Warte 2 Sekunden...", needKeys:"Chefin, trage zuerst deine 3 Schlussel oben ein und klicke Speichern.", prompt:"Antworte auf DEUTSCH, einfach und klar. Erfinde nie etwas. Nutze nur Suchergebnisse."},
+it:{name:"Italiano", ask:"Fammi una domanda...", send:"Invia", hello:"Ciao Capo ! Sono UNIVERS AI V2.1 - Pulito, Veloce, Senza Errori !", search:"Sto cercando con Exa... Aspetta 2 secondi...", needKeys:"Capo, metti prima le tue 3 chiavi in alto e clicca Salva.", prompt:"Rispondi in ITALIANO, semplice e chiaro. Non inventare mai. Usa solo i risultati di ricerca."},
+zh:{name:"Chinois", ask:"Ask me a question...", send:"Send", hello:"Hello Boss ! I am UNIVERS AI V2.1 !", search:"I am searching with Exa... Wait 2 seconds...", needKeys:"Boss, put your 3 keys on top first.", prompt:"Answer in CHINESE, simple and clear. Never invent. Use only search results."},
+hi:{name:"Hindi", ask:"Ask me a question...", send:"Send", hello:"Hello Boss ! I am UNIVERS AI V2.1 !", search:"I am searching with Exa... Wait 2 seconds...", needKeys:"Boss, put your 3 keys on top first.", prompt:"Answer in HINDI, simple and clear. Never invent. Use only search results."},
+ru:{name:"Russe", ask:"Ask me a question...", send:"Send", hello:"Hello Boss ! I am UNIVERS AI V2.1 !", search:"I am searching with Exa... Wait 2 seconds...", needKeys:"Boss, put your 3 keys on top first.", prompt:"Answer in RUSSIAN, simple and clear. Never invent. Use only search results."},
+tr:{name:"Turc", ask:"Ask me a question...", send:"Send", hello:"Hello Boss ! I am UNIVERS AI V2.1 !", search:"I am searching with Exa... Wait 2 seconds...", needKeys:"Boss, put your 3 keys on top first.", prompt:"Answer in TURKISH, simple and clear. Never invent. Use only search results."},
+sw:{name:"Swahili", ask:"Niulize swali...", send:"Tuma", hello:"Habari Boss ! Mimi ni UNIVERS AI V2.1 - Safi, Haraka, Bila Makosa !", search:"Ninatafuta na Exa... Subiri sekunde 2...", needKeys:"Boss, weka funguo zako 3 hapo juu kwanza na ubonyeze Hifadhi.", prompt:"Answer in SWAHILI, simple and clear. Never invent. Use only search results."},
+ha:{name:"Hausa", ask:"Tambaye ni tambaya...", send:"Aika", hello:"Sannu Boss ! Ni ne UNIVERS AI V2.1 - Tsaftace, Mai Sauri, Ba Kuskure !", search:"Ina bincike da Exa... Jira seconds 2...", needKeys:"Boss, saka maballanka 3 a sama da farko ka danna Ajiye.", prompt:"Answer in HAUSA, simple and clear. Never invent. Use only search results."},
+yo:{name:"Yoruba", ask:"Beere lowo mi ibeere...", send:"Firanse", hello:"E n le Boss ! Emi ni UNIVERS AI V2.1 - Mo, Yara, Laisi Asise !", search:"Mo n wa pelu Exa... Duro iseju 2...", needKeys:"Boss, fi awon botini 3 re si oke akoko ki o te Fipamo.", prompt:"Answer in YORUBA, simple and clear. Never invent. Use only search results."},
+ig:{name:"Igbo", ask:"Juo m ajuju...", send:"Zipu", hello:"Ndewo Boss ! Abu m UNIVERS AI V2.1 - Di Ocha, Oso, Enweghi Njehie !", search:"Ana m acho na Exa... Chere sekond 2...", needKeys:"Boss, tinye igodo 3 gi nelu mbu wee pia Chekwa.", prompt:"Answer in IGBO, simple and clear. Never invent. Use only search results."},
+wo:{name:"Wolof", ask:"Laaj ma laaj...", send:"Yonne", hello:"Salaam Boss ! Man laa UNIVERS AI V2.1 - Set, Gaaw, Amul Njuumte !", search:"Maa ngi seet ak Exa... Xaara 2 sekon...", needKeys:"Boss, dugal sa 3 cles ci kaw, te besal Sauvegarder.", prompt:"Answer in WOLOF, simple and clear. Never invent. Use only search results."},
+ff:{name:"Fulfulde", ask:"Lamndam lamndal...", send:"Nul", hello:"Jam Boss ! Mi woni UNIVERS AI V2.1 - Laabudo, Kesido, Alaa Fali !", search:"Mido tefude e Exa... Haado sekon 2...", needKeys:"Boss, wattu coktirde maa 3 dow, a bubu Danndo.", prompt:"Answer in FULFULDE, simple and clear. Never invent. Use only search results."},
+son:{name:"Songhai", ask:"Ha buru ha...", send:"Samba", hello:"Fofo Boss ! Ay ga UNIVERS AI V2.1 - Hanse, Caha, Sanda Taali si !", search:"Ay go te han Exa ra... Kotto sekon 2...", needKeys:"Boss, dan ni cle 3 ni beene, ka Sauvegarder digi.", prompt:"Answer in SONGHAI, simple and clear. Never invent. Use only search results."},
+dyu:{name:"Dioula", ask:"Ningali...", send:"Ci", hello:"I ni ce Patronne ! Ne ye UNIVERS AI V2.1 ye !", search:"N ba nyini Exa fe...", needKeys:"Patronne, i ka cle 3 da a kan folo.", prompt:"Answer in DIOULA, simple and clear. Never invent. Use only search results."}
 };
 function getLang(){ return LANGS[currentLang] || LANGS.fr; }
 function changeLang(){
-  currentLang = document.getElementById('langSelect').value;
+  currentLang = document.getElementById("langSelect").value;
   localStorage.setItem("UNIVERS_LANG", currentLang);
   applyLangUI();
-  addMsg(getLang().hello + " | Langue : " + getLang().name,'ai');
+  addMsg(getLang().hello + " | Langue : " + getLang().name,"ai");
 }
 function applyLangUI(){
   let L = getLang();
-  document.getElementById('userInput').placeholder = L.ask;
-  document.getElementById('sendBtn').innerText = L.send;
-  document.getElementById('langInfo').innerText = "Langue actuelle : " + L.name + ". UNIVERS AI va répondre et chercher dans cette langue.";
+  document.getElementById("userInput").placeholder = L.ask;
+  document.getElementById("sendBtn").innerText = L.send;
+  document.getElementById("langInfo").innerText = "Langue actuelle : " + L.name + ". UNIVERS AI va repondre et chercher dans cette langue.";
 }
 function saveKeys(){
-  OPENROUTER_KEY = document.getElementById('k1').value.trim();
-  EXA_KEY = document.getElementById('k2').value.trim();
-  GEMINI_KEY = document.getElementById('k3').value.trim();
+  OPENROUTER_KEY = document.getElementById("k1").value.trim();
+  EXA_KEY = document.getElementById("k2").value.trim();
+  GEMINI_KEY = document.getElementById("k3").value.trim();
   localStorage.setItem("UNIVERS_OPENROUTER", OPENROUTER_KEY);
   localStorage.setItem("UNIVERS_EXA", EXA_KEY);
   localStorage.setItem("UNIVERS_GEMINI", GEMINI_KEY);
   updateStatus();
-  addMsg("Merci Patronne ! Tes clés sont sauvegardées dans ton téléphone seulement. GitHub ne les voit plus.",'ai');
+  addMsg("Merci Patronne ! Tes cles sont sauvegardees dans ton telephone seulement. GitHub ne les voit plus.","ai");
 }
 function updateStatus(){
   let n = 0; if(OPENROUTER_KEY) n++; if(EXA_KEY) n++; if(GEMINI_KEY) n++;
-  document.getElementById('keysStatus').innerText = n===3 ? "✅ 3/3 clés mises - UNIVERS AI est activé !" : "⚠️ "+n+"/3 clés mises - Mets tes 3 clés pour activer.";
+  document.getElementById("keysStatus").innerText = n===3 ? "✅ 3/3 cles mises - UNIVERS AI est active !" : "⚠️ "+n+"/3 cles mises - Mets tes 3 cles pour activer.";
 }
-let mode='chat'; let currentPhoto=null; let lastPhotoInfo='';
-function setMode(m,el){mode=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
-function addMsg(text,type,imgSrc){let box=document.getElementById('chatBox');let d=document.createElement('div');d.className='msg '+(type||'ai');d.innerText=text;if(imgSrc){let im=document.createElement('img');im.src=imgSrc;d.appendChild(im);}box.appendChild(d);box.scrollTop=box.scrollHeight;return d;}
-function showPreview(e){let f=e.target.files[0];if(!f)return;lastPhotoInfo="Nom: "+f.name+" | Taille: "+Math.round(f.size/1024)+" Ko";let r=new FileReader();r.onload=function(ev){currentPhoto=ev.target.result;document.getElementById('previewImg').src=currentPhoto;document.getElementById('previewArea').style.display='block';};r.readAsDataURL(f);}
-function cancelPhoto(){currentPhoto=null;document.getElementById('previewArea').style.display='none';document.getElementById('fileInput').value='';}
-function sendPhotoToAI(){if(!currentPhoto)return;addMsg("Voici ma photo, examine-la",'user',currentPhoto);document.getElementById('previewArea').style.display='none';currentPhoto=null;setTimeout(()=>{addMsg("J'ai bien reçu ta photo !\n\n"+lastPhotoInfo+"\n\nDis-moi en 1 phrase ce qu'il y a sur la photo ?",'ai');},600);}
-// ===== CORRECTION DES FAUTES : ON REGARDE LE MOT ENTIER, PAS UN MORCEAU =====
+let mode="chat"; let currentPhoto=null; let lastPhotoInfo="";
+function setMode(m,el){mode=m;document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));el.classList.add("active");}
+function addMsg(text,type,imgSrc){let box=document.getElementById("chatBox");let d=document.createElement("div");d.className="msg "+(type||"ai");d.innerText=text;if(imgSrc){let im=document.createElement("img");im.src=imgSrc;d.appendChild(im);}box.appendChild(d);box.scrollTop=box.scrollHeight;return d;}
+function showPreview(e){let f=e.target.files[0];if(!f)return;lastPhotoInfo="Nom: "+f.name+" | Taille: "+Math.round(f.size/1024)+" Ko";let r=new FileReader();r.onload=function(ev){currentPhoto=ev.target.result;document.getElementById("previewImg").src=currentPhoto;document.getElementById("previewArea").style.display="block";};r.readAsDataURL(f);}
+function cancelPhoto(){currentPhoto=null;document.getElementById("previewArea").style.display="none";document.getElementById("fileInput").value="";}
+function sendPhotoToAI(){if(!currentPhoto)return;addMsg("Voici ma photo, examine-la","user",currentPhoto);document.getElementById("previewArea").style.display="none";currentPhoto=null;setTimeout(()=>{addMsg("J ai bien recu ta photo !\n\n"+lastPhotoInfo+"\n\nDis-moi en 1 phrase ce qu il y a sur la photo ?","ai");},600);}
 function hasWord(text, words){
-  let clean = " " + text.toLowerCase().replace(/[.,!?;:']/g," ") + " ";
+  let clean = " " + text.toLowerCase().replace(/[.,!?;:]/g," ") + " ";
   for(let w of words){ if(clean.includes(" "+w+" ")) return true; }
   return false;
 }
@@ -198,12 +195,12 @@ async function searchExa(question){
 async function searchSecours(question){
   let infos="";
   try{
-    let langWiki = (currentLang==='bm'||currentLang==='dyu') ? "fr" : (currentLang==='son' ? "fr" : currentLang);
-    if(!['fr','en','es','ar','pt','de','it','zh','hi','ru','tr','sw','ha','yo','ig','wo'].includes(langWiki)) langWiki="fr";
+    let langWiki = currentLang;
+    if(!["fr","en","es","pt","de","it","zh","hi","ru","tr","sw","ha","yo","ig","wo"].includes(langWiki)) langWiki="fr";
     let sr=await fetch("https://"+langWiki+".wikipedia.org/w/api.php?action=query&list=search&srsearch="+encodeURIComponent(question)+"&format=json&origin=*");
     let sd=await sr.json();
     if(sd.query && sd.query.search.length>0){
-      infos += "WIKIPEDIA : " + sd.query.search[0].title + " - " + sd.query.search[0].snippet.replace(/<[^>]*>/g,'') + "\n";
+      infos += "WIKIPEDIA : " + sd.query.search[0].title + " - " + sd.query.search[0].snippet.replace(/<[^>]*>/g,"") + "\n";
       try{let r2=await fetch("https://"+langWiki+".wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(sd.query.search[0].title));let d2=await r2.json();if(d2.extract) infos += "RESUME : " + d2.extract.substring(0,600) + "\n";}catch(e){}
     }
   }catch(e){}
@@ -212,4 +209,4 @@ async function searchSecours(question){
 async function askOpenRouter(question, infosRecherche){
   if(!OPENROUTER_KEY) return null;
   let L = getLang();
-  let system = "Tu es UNIVERS AI 2026, creee par Mathias Diarra a Bamako au Mali. Nous sommes le 12 novembre 2026. Hier c etait "+getHierDate()+". "+L.prompt+" Createur : Mathias Diarra, cree UNIVERS AI en 2026 dans sa chambre informatique, pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Il a travaille jour et nuit dans son telephone. Pere : David. Mere : Kondjiri Traore. Village : Torodo, N tjibougou. Ne a Bamako, Mali, le 01 janvier 2007, nationalite malienne. Grand frere de Guemba Diarra, famille Diarra. President du Mali 2026 : General d Armee Assimi GOITA. Modibo Keita : 1er president. MALI : Mansa Moussa empereur 1312-1337, homme le plus riche de l histoire grace aux mines d or de Bambuk et Bure. Aujourd hui selon Google : Mamadou Sinsy Coulibaly dit Coulou, ne en 1956, president fondateur du Groupe Kledou. Autres noms : Seydou Nantoume, Madou Dacko, Mossadeck Bally. Pas de classement officiel publie par l Etat du Mali. INTERDICTION : Ne JAMAIS dire que Moussa Sissoko est le plus riche du Mali. BALLON D OR 2026 OFFICIEL : Attribue lundi 26 octobre 2026 a Londres. Gagnant : Harry Kane, Anglais, 33 ans, Bayern Munich
+  let system = "Tu es UNIVERS AI 2026, creee par Mathias Diarra a Bamako au Mali. Nous sommes le 12 novembre 2026. Hier c etait "+getHierDate()+". "+L.prompt+" Createur : Mathias Diarra, cree UNIVERS AI en 2026 dans sa chambre informatique, pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Il a travaille jour et nuit dans son telephone. Pere : David. Mere : Kondjiri Traore. Village : Torodo, N tjibougou. Ne a Bamako, Mali, le 01 janvier 2007, nationalite malienne. Grand frere de Guemba Diarra, famille Diarra. President du Mali 2026 : General d Armee Assimi GOITA. Modibo Keita : 1er president. MALI : Mansa Moussa empereur 1312-1337, homme le plus riche de l histoire grace aux mines d or de Bambuk et Bure. Aujourd hui selon Google : Mamadou Sinsy Coulibaly dit Coulou, ne en 1956, president fondateur du Groupe Kledou. Autres noms : Seydou Nantoume, Madou Dacko, Mossadeck Bally. Pas de classement officiel publie par l Etat du Mali. INTERDICTION : Ne JAMAIS dire que Moussa Sissoko est le plus riche du Mali. BALLON D OR 2026 OFFICIEL : Attribue lundi 26 octobre 2026 a Londres. Gagnant : Harry Kane, Anglais, 33 ans, Bayern Munich, devant Kylian Mbappe et Lamine Yamal. 73 buts. Femmes : Alexia Putellas. Ousmane Dembele 2025 a fini 7e en 2026. INTERDICTION : Ne JAMAIS dire que le Ballon d Or 2026 n est pas encore attribue. COUPE DU MONDE 2026 OFFICIEL : DEJA FINIE du 11 juin au 19 juillet 2026, USA, Canada, Mexique, 48 equipes. GAGNANT : ESPAGNE. Finale : Espagne 1-0 Argentine, dimanche 19 juillet 2026 a New York, MetLife Stadium, 
