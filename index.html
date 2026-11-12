@@ -11,10 +11,14 @@ body{background:#020617;color:white;padding:10px;padding-bottom:20px}
 .header img{width:120px;height:120px;object-fit:contain;background:white;border-radius:50%;padding:5px}
 .header h1{color:#00e5ff;font-size:24px;margin-top:5px}
 .header p{color:#7dd3fc;font-size:13px;font-weight:bold}
+.keysBox{background:#0f172a;border:1px dashed #00e5ff;border-radius:12px;padding:10px;margin-top:12px}
+.keysBox b{color:#00e5ff;font-size:13px}
+.keysBox input{width:100%;padding:10px;margin:5px 0;border-radius:10px;border:none;background:#1e293b;color:white;font-size:13px}
+.keysBox button{background:#00e5ff;border:none;padding:10px;width:100%;border-radius:10px;font-weight:bold;cursor:pointer;color:#020617}
 .tabs{display:flex;gap:8px;margin:15px 0}
 .tab{flex:1;text-align:center;padding:12px 5px;border-radius:25px;border:2px solid #00e5ff;background:#0f172a;color:white;font-weight:bold;cursor:pointer;font-size:14px}
 .tab.active{background:#00e5ff;color:#020617}
-#chatBox{background:#0f172a;border:1px solid #00e5ff;border-radius:15px;padding:12px;min-height:350px;display:flex;flex-direction:column;gap:10px}
+#chatBox{background:#0f172a;border:1px solid #00e5ff;border-radius:15px;padding:12px;min-height:300px;display:flex;flex-direction:column;gap:10px}
 .msg{padding:12px 14px;border-radius:15px;line-height:1.7;font-size:15px;max-width:95%;white-space:pre-wrap}
 .ai{background:#1e293b;border-left:4px solid #00e5ff;align-self:flex-start}
 .user{background:#00e5ff;color:#020617;align-self:flex-end;font-weight:bold;text-align:right}
@@ -36,6 +40,16 @@ a{color:#00e5ff}
 <h1>UNIVERS AI</h1>
 <p>OpenRouter + Exa + Gemini • Architecture Pro 2026<br>Mathias Diarra - Bamako, Mali</p>
 </div>
+
+<div class="keysBox">
+<b>🔐 PATRONNE - MES CLES SECRETS (reste dans ton téléphone seulement, pas dans GitHub)</b>
+<input id="k1" placeholder="1. Colle ici ta NOUVELLE clé OpenRouter">
+<input id="k2" placeholder="2. Colle ici ta NOUVELLE clé Exa">
+<input id="k3" placeholder="3. Colle ici ta NOUVELLE clé Gemini">
+<button onclick="saveKeys()">💾 Sauvegarder mes clés et Activer UNIVERS AI</button>
+<p id="keysStatus" style="font-size:12px;margin-top:6px;color:#7dd3fc">Tu n'as pas encore mis tes clés.</p>
+</div>
+
 <div class="tabs">
 <div class="tab active" onclick="setMode('chat',this)">Chat</div>
 <div class="tab" onclick="setMode('image',this)">Image</div>
@@ -43,11 +57,11 @@ a{color:#00e5ff}
 </div>
 <div id="chatBox">
 <div class="msg ai">Bonjour Patronne !
-Je suis UNIVERS AI - Nouvelle Architecture Pro !
+Je suis UNIVERS AI - Version Sécurisée !
 - Cerveau principal : OpenRouter
-- Recherche mondiale : Exa (comme Google, remplace Tavily)
+- Recherche mondiale : Exa
 - Cerveau secours : Gemini
-Pose-moi :
+Mets tes 3 clés en haut, clique Sauvegarder, puis pose-moi :
 - Qui a gagne la coupe du monde 2026 ?
 - Le ballon d or 2026 ?
 - Qu est ce qui s est passe hier ?
@@ -57,53 +71,50 @@ Pose-moi :
 <div class="inputArea">
 <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="showPreview(event)">
 <button id="photoBtn" onclick="document.getElementById('fileInput').click()">📷</button>
-<input id="userInput" placeholder="Pose-moi une question, je cherche avec Exa..." onkeypress="if(event.key==='Enter') sendMsg()">
+<input id="userInput" placeholder="Pose-moi une question..." onkeypress="if(event.key==='Enter') sendMsg()">
 <button id="sendBtn" onclick="sendMsg()">Envoyer</button>
 </div>
 <p class="footer">MAISON UNIVERS AI 2026 - OpenRouter + Exa + Gemini - Mathias Diarra - Bamako</p>
 <script>
-// ============================================================
-// 👇👇👇 PATRONNE, C EST ICI QUE TU METS TES 3 CLES SECRETES 👇👇👇
-// Tu colles TOUT le code d abord, puis tu viens ici et tu remplaces
-// seulement ce qui est entre les " "
-// ============================================================
-
-// 👇 1. CLE NUMERO 1 - OPENROUTER - CERVEAU PRINCIPAL
-const OPENROUTER_KEY = "";
-
-// 👇 2. CLE NUMERO 2 - EXA - RECHERCHE COMME GOOGLE (REMPLACE TAVILY)
-// Va sur exa.ai, cree un compte gratuit, copie ta cle, colle-la ici
-const EXA_KEY = "";
-
-// 👇 3. CLE NUMERO 3 - GEMINI - CERVEAU SECOURS
-const GEMINI_KEY = "";
-
-// ============================================================
-// 👆👆👆 FIN DES CLES - NE TOUCHE PLUS RIEN APRES ICI 👆👆👆
-// ============================================================
-
+// AUCUNE CLE ICI - C EST NORMAL - LES CLES SONT DANS TON TELEPHONE SEULEMENT
+let OPENROUTER_KEY = localStorage.getItem("UNIVERS_OPENROUTER") || "";
+let EXA_KEY = localStorage.getItem("UNIVERS_EXA") || "";
+let GEMINI_KEY = localStorage.getItem("UNIVERS_GEMINI") || "";
+if(OPENROUTER_KEY) document.getElementById('k1').value = OPENROUTER_KEY;
+if(EXA_KEY) document.getElementById('k2').value = EXA_KEY;
+if(GEMINI_KEY) document.getElementById('k3').value = GEMINI_KEY;
+updateStatus();
+function saveKeys(){
+  OPENROUTER_KEY = document.getElementById('k1').value.trim();
+  EXA_KEY = document.getElementById('k2').value.trim();
+  GEMINI_KEY = document.getElementById('k3').value.trim();
+  localStorage.setItem("UNIVERS_OPENROUTER", OPENROUTER_KEY);
+  localStorage.setItem("UNIVERS_EXA", EXA_KEY);
+  localStorage.setItem("UNIVERS_GEMINI", GEMINI_KEY);
+  updateStatus();
+  addMsg("Merci Patronne ! Tes clés sont sauvegardées dans ton téléphone seulement. GitHub ne les voit plus. Maintenant Envoyer va marcher ! Teste-moi : Qui a gagne la coupe du monde 2026 ?",'ai');
+}
+function updateStatus(){
+  let n = 0; if(OPENROUTER_KEY) n++; if(EXA_KEY) n++; if(GEMINI_KEY) n++;
+  document.getElementById('keysStatus').innerText = n===3 ? "✅ 3/3 clés mises - UNIVERS AI est activé !" : "⚠️ "+n+"/3 clés mises - Mets tes 3 clés pour activer.";
+}
 let mode='chat'; let currentPhoto=null; let lastPhotoInfo='';
-function setMode(m,el){mode=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');let txt=m==='chat'?"Mode Chat Pro active ! OpenRouter + Exa":m==='image'?"Mode Image active !":"Mode Recherche Exa active !";addMsg(txt,'ai');}
+function setMode(m,el){mode=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');let txt=m==='chat'?"Mode Chat Pro active !":m==='image'?"Mode Image active !":"Mode Recherche Exa active !";addMsg(txt,'ai');}
 function addMsg(text,type,imgSrc){let box=document.getElementById('chatBox');let d=document.createElement('div');d.className='msg '+(type||'ai');d.innerText=text;if(imgSrc){let im=document.createElement('img');im.src=imgSrc;d.appendChild(im);}box.appendChild(d);box.scrollTop=box.scrollHeight;return d;}
 function showPreview(e){let f=e.target.files[0];if(!f)return;lastPhotoInfo="Nom: "+f.name+" | Taille: "+Math.round(f.size/1024)+" Ko";let r=new FileReader();r.onload=function(ev){currentPhoto=ev.target.result;document.getElementById('previewImg').src=currentPhoto;document.getElementById('previewArea').style.display='block';};r.readAsDataURL(f);}
 function cancelPhoto(){currentPhoto=null;document.getElementById('previewArea').style.display='none';document.getElementById('fileInput').value='';}
 function sendPhotoToAI(){if(!currentPhoto)return;addMsg("Voici ma photo, examine-la",'user',currentPhoto);document.getElementById('previewArea').style.display='none';currentPhoto=null;setTimeout(()=>{addMsg("J ai bien recu ta photo !\n\n"+lastPhotoInfo+"\n\nDis-moi en 1 phrase ce qu il y a sur la photo ? Et je vais t expliquer tout en detail !",'ai');},600);}
 function getHierDate(){let d=new Date(); d.setDate(d.getDate()-1);let jours=["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];let mois=["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"];return jours[d.getDay()]+" "+d.getDate()+" "+mois[d.getMonth()]+" "+d.getFullYear();}
-
-// ===== EXA - RECHERCHE MONDIALE COMME GOOGLE - REMPLACE TAVILY =====
 async function searchExa(question){
-  if(!EXA_KEY || EXA_KEY.includes("COLLE_TA_CLE")) return "";
+  if(!EXA_KEY) return "";
   try{
     let res = await fetch("https://api.exa.ai/search",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":EXA_KEY},body:JSON.stringify({query:question,numResults:5,type:"auto",contents:{text:{maxCharacters:1000}}})});
     let data = await res.json();
     let infos = "";
-    if(data.results) data.results.forEach(r=>{
-      infos += "- " + r.title + " : " + (r.text ? r.text.substring(0,500) : (r.snippet||"")) + " | Source : " + r.url + "\n";
-    });
+    if(data.results) data.results.forEach(r=>{ infos += "- " + r.title + " : " + (r.text ? r.text.substring(0,500) : (r.snippet||"")) + " | Source : " + r.url + "\n"; });
     return infos;
   }catch(e){ return ""; }
 }
-
 async function searchSecours(question){
   let infos="";
   try{
@@ -121,10 +132,64 @@ async function searchSecours(question){
   }catch(e){}
   return infos;
 }
-
 async function askOpenRouter(question, infosRecherche){
-  if(!OPENROUTER_KEY || OPENROUTER_KEY.includes("COLLE_TA_CLE")) return null;
+  if(!OPENROUTER_KEY) return null;
   let hier = getHierDate();
-  let system = "Tu es UNIVERS AI 2026, creee par Mathias Diarra a Bamako au Mali. Nous sommes le 12 novembre 2026. Hier c etait "+hier+". REGLE : Reponds EXACTEMENT comme les resultats de recherche Exa / Google ci-dessous. Ne jamais inventer. Reponds en francais simple, clair, phrases courtes. Commence par la reponse directe en 1 phrase, puis 3-4 phrases d explication. Createur : Mathias Diarra, cree UNIVERS AI en 2026 dans sa chambre informatique, pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Il a travaille jour et nuit dans son telephone. Pere : David. Mere : Kondjiri Traore. Village : Torodo, N tjibougou. Ne a Bamako, Mali, le 01 janvier 2007, nationalite malienne. Grand frere de Guemba Diarra, famille Diarra. President du Mali 2026 : General d Armee Assimi GOITA. Modibo Keita : 1er president. MALI : Mansa Moussa empereur 1312-1337, homme le plus riche de l histoire grace aux mines d or de Bambuk et Bure. Aujourd hui selon Google : Mamadou Sinsy Coulibaly dit Coulou, ne en 1956, president fondateur du Groupe Kledou. Autres noms : Seydou Nantoume, Madou Dacko, Mossadeck Bally. Pas de classement officiel publie par l Etat du Mali. INTERDICTION : Ne JAMAIS dire que Moussa Sissoko est le plus riche du Mali. BALLON D OR 2026 OFFICIEL : Attribue lundi 26 octobre 2026 a Londres. Gagnant : Harry Kane, Anglais, 33 ans, Bayern Munich, devant Kylian Mbappe et Lamine Yamal. 73 buts. Femmes : Alexia Putellas. Ousmane Dembele 2025 a fini 7e en 2026. INTERDICTION : Ne JAMAIS dire que le Ballon d Or 2026 n est pas encore attribue. COUPE DU MONDE 2026 OFFICIEL : DEJA FINIE du 11 juin au 19 juillet 2026, USA, Canada, Mexique, 48 equipes. GAGNANT : ESPAGNE. Finale : Espagne 1-0 Argentine, dimanche 19 juillet 2026 a New York, MetLife Stadium, but Ferran Torres 106e minute en prolongation. 2e etoile apres 2010. France 4e. INTERDICTION : Ne JAMAIS dire que la Coupe du Monde 2026 n est pas encore jouee.";
+  let system = "Tu es UNIVERS AI 2026, creee par Mathias Diarra a Bamako au Mali. Nous sommes le 12 novembre 2026. Hier c etait "+hier+". Reponds EXACTEMENT comme les resultats de recherche Exa / Google. Ne jamais inventer. Reponds en francais simple, clair, phrases courtes. Createur : Mathias Diarra, cree UNIVERS AI en 2026 dans sa chambre informatique, pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Il a travaille jour et nuit dans son telephone. Pere : David. Mere : Kondjiri Traore. Village : Torodo, N tjibougou. Ne a Bamako, Mali, le 01 janvier 2007, nationalite malienne. Grand frere de Guemba Diarra, famille Diarra. President du Mali 2026 : General d Armee Assimi GOITA. Modibo Keita : 1er president. MALI : Mansa Moussa empereur 1312-1337, homme le plus riche de l histoire grace aux mines d or de Bambuk et Bure. Aujourd hui selon Google : Mamadou Sinsy Coulibaly dit Coulou, ne en 1956, president fondateur du Groupe Kledou. Autres noms : Seydou Nantoume, Madou Dacko, Mossadeck Bally. Pas de classement officiel publie par l Etat du Mali. INTERDICTION : Ne JAMAIS dire que Moussa Sissoko est le plus riche du Mali. BALLON D OR 2026 OFFICIEL : Attribue lundi 26 octobre 2026 a Londres. Gagnant : Harry Kane, Anglais, 33 ans, Bayern Munich, devant Kylian Mbappe et Lamine Yamal. 73 buts. Femmes : Alexia Putellas. Ousmane Dembele 2025 a fini 7e en 2026. INTERDICTION : Ne JAMAIS dire que le Ballon d Or 2026 n est pas encore attribue. COUPE DU MONDE 2026 OFFICIEL : DEJA FINIE du 11 juin au 19 juillet 2026, USA, Canada, Mexique, 48 equipes. GAGNANT : ESPAGNE. Finale : Espagne 1-0 Argentine, dimanche 19 juillet 2026 a New York, MetLife Stadium, but Ferran Torres 106e minute en prolongation. 2e etoile apres 2010. France 4e. INTERDICTION : Ne JAMAIS dire que la Coupe du Monde 2026 n est pas encore jouee.";
   try{
-    let res = await fetch("https://openrouter.ai/api/v1/chat/completions",{method:"POST",headers:{"Authorization":"Bearer "+OPENROUTER_KEY,"Content-Type":"application/json"},body:JSON.stringify({model:"meta-llama/llama-3.1-8b-instruct:free",messages:[{role:"
+    let res = await fetch("https://openrouter.ai/api/v1/chat/completions",{method:"POST",headers:{"Authorization":"Bearer "+OPENROUTER_KEY,"Content-Type":"application/json"},body:JSON.stringify({model:"meta-llama/llama-3.1-8b-instruct:free",messages:[{role:"system",content:system},{role:"user",content:"RESULTATS DE RECHERCHE EXA / GOOGLE :\n"+infosRecherche+"\n\nQuestion : "+question+"\n\nReponds en francais simple, comme Google :"}]})});
+    let data = await res.json();
+    if(data.choices && data.choices[0]) return data.choices[0].message.content;
+    return null;
+  }catch(e){ return null; }
+}
+async function askGemini(question, infosRecherche){
+  if(!GEMINI_KEY) return null;
+  try{
+    let prompt = "Tu es UNIVERS AI 2026, creee par Mathias Diarra a Bamako. Reponds en francais simple et clair. Utilise ces resultats de recherche : "+infosRecherche+" Question : "+question+" BALLON D OR 2026 : Harry Kane le 26 octobre 2026 a Londres. COUPE DU MONDE 2026 : Espagne 1-0 Argentine le 19 juillet 2026, but Ferran Torres 106e. PLUS RICHE DU MALI AUJOURD HUI : Mamadou Sinsy Coulibaly dit Coulou. HISTOIRE : Mansa Moussa.";
+    let res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+GEMINI_KEY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
+    let data = await res.json();
+    if(data.candidates && data.candidates[0] && data.candidates[0].content) return data.candidates[0].content.parts[0].text;
+    return null;
+  }catch(e){ return null; }
+}
+async function askPollinations(question, infosRecherche){
+  let system = "Tu es UNIVERS AI 2026, creee par Mathias Diarra a Bamako. Reponds en francais simple. BALLON D OR 2026 : Harry Kane 26 octobre 2026 Londres. COUPE DU MONDE 2026 : Espagne 1-0 Argentine 19 juillet 2026, Ferran Torres 106e. PLUS RICHE MALI : Coulou. HISTOIRE : Mansa Moussa. Createur : Mathias Diarra, chambre informatique 2026, pour eleves de Bamako, travaille jour et nuit dans son telephone. Pere David, Mere Kondjiri Traore, Village Torodo N tjibougou, Ne Bamako 01 janvier 2007, Grand frere Guemba Diarra.";
+  let full = system + "\n\nRESULTATS : " + infosRecherche + "\n\nQuestion : " + question;
+  let res = await fetch("https://text.pollinations.ai/" + encodeURIComponent(full) + "?model=openai");
+  let t = await res.text(); return t;
+}
+async function sendMsg(){
+let inp=document.getElementById('userInput');let txt=inp.value.trim();if(!txt)return;addMsg(txt,'user');inp.value='';
+let low=txt.toLowerCase();
+if(mode==='image'){let url="https://image.pollinations.ai/prompt/"+encodeURIComponent(txt+" , beautiful, high quality")+ "?width=512&height=512&seed="+Math.floor(Math.random()*99999);addMsg("Je cree ton image : "+txt+" ... Attends 3 secondes",'ai');setTimeout(()=>{addMsg("Voici ton image !",'ai',url);},500);return;}
+if(mode==='recherche'){addMsg("Je cherche avec Exa pour toi : "+txt+"\n\nVoir sur Google : https://www.google.com/search?q="+encodeURIComponent(txt),'ai');return;}
+if(low.includes("bonjour")||low.includes("salut")){addMsg("Bonjour Patronne ! Je suis maintenant en Architecture Pro : OpenRouter + Exa + Gemini. Pose-moi n importe quelle question !",'ai');return;}
+if(low.includes("merci")){addMsg("De rien Patronne ! C est avec plaisir !",'ai');return;}
+if(low.includes("createur")||low.includes("fondateur")||low.includes("cree")||low.includes("creer")||low.includes("qui t")){addMsg("C est Mathias Diarra qui m a cree, en 2026 dans sa chambre informatique. Il a decide de creer une AI pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Mathias Diarra, le createur de LA MAISON UNIVERS AI, a travaille jour et nuit pour coder et programmer tous les outils dans son telephone, afin de me rendre plus forte en sagesse et en intelligence.",'ai');return;}
+if(low.includes("pere")||low.includes("papa")||low.includes("david")){addMsg("Le pere de Mathias Diarra s appelle David.",'ai');return;}
+if(low.includes("mere")||low.includes("maman")||low.includes("kondjiri")){addMsg("La mere de Mathias Diarra s appelle Kondjiri Traore.",'ai');return;}
+if(low.includes("village")||low.includes("torodo")){addMsg("Le village de Mathias Diarra c est Torodo, N tjibougou.",'ai');return;}
+if(low.includes("naissance")||low.includes("ne")||low.includes("2007")||low.includes("quand est")){addMsg("Mathias Diarra est ne a Bamako, Mali, le 01 janvier 2007, de nationalite malienne.",'ai');return;}
+if(low.includes("frere")||low.includes("guemba")){addMsg("Mathias Diarra est le grand frere de Guemba Diarra, ne dans la famille Diarra.",'ai');return;}
+if(low.includes("coupe du monde")||low.includes("mondial")||low.includes("qui a gagne la coupe")||low.includes("qui a gagne")&&low.includes("coupe")){addMsg("La Coupe du Monde 2026, c est l ESPAGNE qui l a gagne !\n\nFinale : Espagne 1 - 0 Argentine\nLe dimanche 19 juillet 2026 a New York, au MetLife Stadium.\nBut : Ferran Torres a la 106e minute, en prolongation.\n\nC est la 2e etoile pour l Espagne, apres 2010.\nL Argentine de Messi a perdu, la France a fini 4e contre l Angleterre.\n\nVerifie sur Google : https://www.google.com/search?q=Coupe+du+Monde+2026+Espagne+Argentine+1-0",'ai');return;}
+if(low.includes("ballon")&&low.includes("or")){addMsg("Le Ballon d Or 2026, c est Harry Kane qui l a gagne !\n\nC etait le lundi 26 octobre 2026 a Londres, au London Palladium.\n\n- 1er : Harry Kane, Anglais, 33 ans, Bayern Munich, 73 buts\n- 2e : Kylian Mbappe\n- 3e : Lamine Yamal\n\nChez les femmes, c est Alexia Putellas qui a gagne, 3e fois apres 2021 et 2022.\n\nOusmane Dembele, qui avait gagne en 2025, a fini 7e en 2026.\n\nVerifie sur Google : https://www.google.com/search?q=Ballon+d+Or+2026+Harry+Kane",'ai');return;}
+if((low.includes("riche")&&low.includes("mali"))||low.includes("coulou")||low.includes("mansa moussa")||low.includes("sinsy")){addMsg("Dans l histoire, c est Mansa Moussa, empereur du Mali de 1312 a 1337. Il est souvent decrit comme l homme le plus riche de tous les temps, grace aux mines d or de Bambuk et Bure.\n\nAujourd hui, selon Google, c est Mamadou Sinsy Coulibaly, surnomme Coulou.\n\nIl est ne en 1956. Il est president fondateur du Groupe Kledou : Malivision, Radio Kledou, assurance, tourisme, agrobusiness, distribution, nouvelles technologies. Il a ete president du Conseil national du patronat du Mali.\n\nAutres noms souvent cites par Google : Seydou Nantoume, Madou Dacko, Mossadeck Bally.\n\nIl n y a pas de classement officiel publie par l Etat du Mali.\n\nMoussa Sissoko n est PAS le plus riche du Mali, c est un footballeur.\n\nVerifie sur Google : https://www.google.com/search?q=plus+riche+du+Mali+Coulou",'ai');return;}
+
+let typing=addMsg("Je cherche avec Exa... puis je reflechis avec OpenRouter... Attends 5 secondes...","ai");
+try{
+  let infos = await searchExa(txt);
+  if(!infos) infos = await searchSecours(txt);
+  let answer = await askOpenRouter(txt, infos);
+  if(!answer) answer = await askGemini(txt, infos);
+  if(!answer) answer = await askPollinations(txt, infos);
+  if(answer && answer.length>5){
+    typing.innerText = answer + "\n\nSources : Exa + OpenRouter + Gemini\nVerifie sur Google : https://www.google.com/search?q=" + encodeURIComponent(txt);
+  } else { throw new Error("vide"); }
+}catch(e){
+  typing.innerText = "Patronne, mets d'abord tes 3 nouvelles clés en haut et clique Sauvegarder, sinon je n'ai pas de cerveau.\n\nVoir sur Google : https://www.google.com/search?q=" + encodeURIComponent(txt);
+}
+}
+</script>
+</body>
+</html>
