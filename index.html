@@ -34,7 +34,7 @@ a{color:#00e5ff}
 <div class="header">
 <img src="file_00000000fa3481f6bdd04a1cd48d0156.png" alt="UNIVERS AI">
 <h1>UNIVERS AI</h1>
-<p>Le Plus Grand Cerveau • Explore • Cree • Communique<br>Mathias Diarra - Bamako, Mali</p>
+<p>Le Plus Grand Cerveau 2026 • Hier • Aujourd hui • Demain<br>Mathias Diarra - Bamako, Mali</p>
 </div>
 <div class="tabs">
 <div class="tab active" onclick="setMode('chat',this)">Chat</div>
@@ -44,68 +44,90 @@ a{color:#00e5ff}
 <div id="chatBox">
 <div class="msg ai">Bonjour Patronne !
 
-Je suis UNIVERS AI - LE PLUS GRAND CERVEAU !
+Je suis UNIVERS AI 2026 - Je connais meme HIER !
 
-Je connais toute l histoire de mon createur Mathias Diarra.
+Pose-moi :
+- Qu est ce qui s est passe hier ?
+- Qu est ce qui s est passe hier au Mali ?
+- Quelles sont les nouvelles d hier ?
+- C est qui le plus riche du Mali ?
+- C est quoi la photosynthese ?
 
-Pose-moi n importe quoi :
-- Qui t a cree ?
-- C est qui son pere ?
-- C est qui sa mere ?
-- C est quoi son village ?
-- Quand est il ne ?
-- C est qui son frere ?
-
-Je te reponds en francais simple et clair. Essaie-moi !</div>
+Je te reponds toujours clairement, en francais simple.</div>
 </div>
 <div id="previewArea"><p>Ta photo est prete :</p><img id="previewImg"><br><button onclick="sendPhotoToAI()">Envoyer a l IA</button> <button onclick="cancelPhoto()" style="background:#475569;color:white">Annuler</button></div>
 <div class="inputArea">
 <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="showPreview(event)">
 <button id="photoBtn" onclick="document.getElementById('fileInput').click()">📷</button>
-<input id="userInput" placeholder="Pose-moi TOUTE question..." onkeypress="if(event.key==='Enter') sendMsg()">
+<input id="userInput" placeholder="Ex: Qu est ce qui s est passe hier ?" onkeypress="if(event.key==='Enter') sendMsg()">
 <button id="sendBtn" onclick="sendMsg()">Envoyer</button>
 </div>
-<p class="footer">MAISON UNIVERS AI - Mathias Diarra - Bamako, Mali</p>
+<p class="footer">MAISON UNIVERS AI 2026 - Mathias Diarra - Bamako, Mali</p>
 <script>
-let mode='chat'; let currentPhoto=null; let lastPhotoInfo=''; let history=[];
-function setMode(m,el){mode=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');let txt=m==='chat'?"Mode Chat active ! Pose-moi TOUTE question":m==='image'?"Mode Image active ! Decris l image, je la cree":"Mode Recherche active !";addMsg(txt,'ai');}
+let mode='chat'; let currentPhoto=null; let lastPhotoInfo='';
+function setMode(m,el){mode=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');let txt=m==='chat'?"Mode Chat 2026 active ! Meme hier je connais":m==='image'?"Mode Image active ! Decris l image, je la cree":"Mode Recherche active !";addMsg(txt,'ai');}
 function addMsg(text,type,imgSrc){let box=document.getElementById('chatBox');let d=document.createElement('div');d.className='msg '+(type||'ai');d.innerText=text;if(imgSrc){let im=document.createElement('img');im.src=imgSrc;d.appendChild(im);}box.appendChild(d);box.scrollTop=box.scrollHeight;return d;}
 function showPreview(e){let f=e.target.files[0];if(!f)return;lastPhotoInfo="Nom: "+f.name+" | Taille: "+Math.round(f.size/1024)+" Ko";let r=new FileReader();r.onload=function(ev){currentPhoto=ev.target.result;document.getElementById('previewImg').src=currentPhoto;document.getElementById('previewArea').style.display='block';};r.readAsDataURL(f);}
 function cancelPhoto(){currentPhoto=null;document.getElementById('previewArea').style.display='none';document.getElementById('fileInput').value='';}
-function sendPhotoToAI(){if(!currentPhoto)return;addMsg("Voici ma photo, examine-la",'user',currentPhoto);document.getElementById('previewArea').style.display='none';currentPhoto=null;setTimeout(()=>{addMsg("J ai bien recu ta photo !\n\n"+lastPhotoInfo+"\n\nDis-moi en 1 phrase ce qu il y a sur la photo : maison, personne, document, produit ? Et je vais t expliquer tout en detail !",'ai');},600);}
+function sendPhotoToAI(){if(!currentPhoto)return;addMsg("Voici ma photo, examine-la",'user',currentPhoto);document.getElementById('previewArea').style.display='none';currentPhoto=null;setTimeout(()=>{addMsg("J ai bien recu ta photo !\n\n"+lastPhotoInfo+"\n\nDis-moi en 1 phrase ce qu il y a sur la photo ? Et je vais t expliquer tout en detail !",'ai');},600);}
 
-async function askBigBrain(question){
-  let system = "Tu es UNIVERS AI, assistante de LA MAISON UNIVERS AI, creee par Mathias Diarra a Bamako au Mali. HISTOIRE A CONNAITRE PAR COEUR : Le createur s appelle Mathias Diarra. Il a cree UNIVERS AI en 2026 dans sa chambre informatique. Il a decide de creer une AI pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Il a travaille jour et nuit pour coder et programmer tous les outils dans son telephone, afin de rendre son AI plus forte en sagesse et en intelligence. Son pere s appelle David. Sa mere s appelle Kondjiri Traore. Son village c est Torodo, N tjibougou. Il est ne a Bamako, Mali, le 01 janvier 2007, de nationalite malienne. Il est le grand frere de Guemba Diarra, ne dans la famille Diarra. President du Mali : General d Armee Assimi GOITA. Modibo Keita : 1er president du Mali, pere de l independance. Tu parles francais simple, clair, gentil, avec des phrases courtes. Tu reponds toujours. Si on te demande qui t a cree, tu donnes toute l histoire de Mathias Diarra. REGLE TRES IMPORTANTE - LE PLUS RICHE DU MALI - RESULTATS GOOGLE A CONNAITRE PAR COEUR : Dans l histoire, le plus riche du Mali c est Mansa Moussa. Il a ete empereur du Mali de 1312 a 1337. Il regne sur l empire du Mali au XIVe siecle grace aux mines d or de Bambuk et Bure. Il est souvent decrit comme l homme le plus riche de tous les temps. Aujourd hui, selon Google, le plus riche du Mali c est Mamadou Sinsy Coulibaly, surnomme Coulou. Il est ne en 1956. Il est president fondateur du Groupe Kledou. Ses entreprises : Malivision, Radio Kledou, assurance, tourisme, agrobusiness, distribution, nouvelles technologies. Il a ete president du Conseil national du patronat du Mali, et il est connu pour s etre prononce contre la corruption. Autres noms souvent cites par Google dans les classements maliens : Seydou Nantoume, Madou Dacko, Mossadeck Bally. Il n y a pas de classement officiel publie par l Etat du Mali pour les fortunes d aujourd hui. INTERDICTION FORMELLE : Ne JAMAIS dire que Moussa Sissoko est le plus riche du Mali. Moussa Sissoko est un footballeur, pas un homme d affaires. Ne jamais inventer une fortune de centaines de millions de dollars pour lui. Si on demande C est qui le plus riche du Mali ?, tu dois toujours repondre : Dans l histoire c est Mansa Moussa. Aujourd hui, selon Google, c est Mamadou Sinsy Coulibaly dit Coulou, president du Groupe Kledou. Il n y a pas de classement officiel au Mali.";
-  let fullPrompt = system + "\n\nQuestion : " + question + "\n\nReponds en francais simple et clair :";
+function getHierDate(){
+  let d=new Date(); d.setDate(d.getDate()-1);
+  let jours=["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+  let mois=["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"];
+  return {texte: jours[d.getDay()]+" "+d.getDate()+" "+mois[d.getMonth()]+" "+d.getFullYear(), iso: d.toISOString().slice(0,10), jour: d.getDate(), moisNum: d.getMonth()+1};
+}
+
+async function askBigBrain(question, extraSystem){
+  let system = "Tu es UNIVERS AI 2026, creee par Mathias Diarra a Bamako au Mali. Nous sommes en 2026. Tu es le plus grand cerveau. Tu reponds toujours en francais simple, clair, gentil, phrases courtes. Tu commences par la reponse directe en 1 phrase, puis tu expliques en 3-4 phrases simples, avec 1 exemple de Bamako si possible. Tu ne dis jamais 'je ne sais pas'. Tu n inventes jamais de faux chiffres, fausses dates, faux presidents. Si tu n es pas sur d un detail recent, tu dis : Voila ce qu on sait sur, et tu expliques le principe. HISTOIRE : Createur Mathias Diarra, cree UNIVERS AI en 2026 dans sa chambre informatique, pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Il a travaille jour et nuit dans son telephone. Pere : David. Mere : Kondjiri Traore. Village : Torodo, N tjibougou. Ne a Bamako, Mali, le 01 janvier 2007, nationalite malienne. Grand frere de Guemba Diarra, famille Diarra. President du Mali en 2026 : General d Armee Assimi GOITA. Modibo Keita : 1er president du Mali. MALI 2026 : Capitale Bamako. Mansa Moussa empereur 1312-1337, homme le plus riche de l histoire grace aux mines d or de Bambuk et Bure. Aujourd hui selon Google, le plus riche du Mali : Mamadou Sinsy Coulibaly dit Coulou, ne en 1956, president fondateur du Groupe Kledou : Malivision, Radio Kledou, assurance, tourisme, agrobusiness, distribution, nouvelles technologies. President du Conseil national du patronat du Mali. Autres noms : Seydou Nantoume, Madou Dacko, Mossadeck Bally. Pas de classement officiel publie par l Etat du Mali. INTERDICTION : Ne JAMAIS dire que Moussa Sissoko est le plus riche du Mali. C est un footballeur. MONDE 2026 : President USA : Donald Trump (2e mandat depuis janvier 2025). France : Emmanuel Macron. Russie : Vladimir Poutine. Chine : Xi Jinping. Coupe du Monde 2026 : USA, Canada, Mexique, juin-juillet 2026, 48 equipes. JO d hiver 2026 : Milan-Cortina Italie, fevrier 2026. ";
+  if(extraSystem) system += " " + extraSystem;
+  let fullPrompt = system + "\n\nQuestion 2026 : " + question + "\n\nReponds en francais simple et clair :";
   let url = "https://text.pollinations.ai/" + encodeURIComponent(fullPrompt) + "?model=openai";
   let res = await fetch(url);
   let text = await res.text();
   return text;
 }
 
+async function getHierNews(question){
+  let hier = getHierDate();
+  let typing = addMsg("Je cherche ce qui s est passe hier, "+hier.texte+"... Attends 5 secondes, je vais sur internet chercher les vraies nouvelles pour toi...","ai");
+  let extra = "REGLE HIER - TRES IMPORTANTE : La question parle d HIER, c est a dire le "+hier.texte+" ("+hier.iso+"). Tu dois repondre sur ce jour precis. Donne 4-5 nouvelles les plus importantes de ce jour : 1 au Mali / Afrique, 1 dans le monde, 1 sport, 1 technologie / science. Pour chaque nouvelle : Titre simple + 2 phrases d explication simple. Si tu n es pas sur a 100% d une nouvelle de ce jour exact, dis clairement : 'Voici les grandes nouvelles de cette semaine autour du "+hier.texte+", verifie sur Google Actualites pour le detail exact'. Ne jamais inventer une fausse nouvelle precise avec un faux mort ou un faux accident. Termine toujours par : 'Tu veux que je t explique 1 de ces nouvelles plus en detail ?' + le lien Google Actualites.";
+  try{
+    let ans = await askBigBrain(question, extra);
+    if(ans && ans.length>5){
+      typing.innerText = "HIER - "+hier.texte+" :\n\n" + ans + "\n\nVoir les vraies nouvelles d hier sur Google Actualites : https://news.google.com/search?q="+encodeURIComponent(question+" "+hier.texte)+"&hl=fr&gl=ML&ceid=ML:fr";
+      return;
+    } else throw new Error("vide");
+  }catch(e){
+    typing.innerText = "Hier, c etait "+hier.texte+".\n\nJe n ai pas pu charger toutes les nouvelles a cause de la connexion.\n\nClique ici pour voir les VRAIES nouvelles d hier : https://news.google.com/search?q="+encodeURIComponent(question+" "+hier.texte)+"&hl=fr&gl=ML&ceid=ML:fr+"\n\nTu veux que je reessaie ?";
+  }
+}
+
 async function sendMsg(){
 let inp=document.getElementById('userInput');let txt=inp.value.trim();if(!txt)return;addMsg(txt,'user');inp.value='';
 let low=txt.toLowerCase();
-if(mode==='image'){let url="https://image.pollinations.ai/prompt/"+encodeURIComponent(txt+" , beautiful, high quality")+ "?width=512&height=512&seed="+Math.floor(Math.random()*99999);addMsg("Je cree ton image : "+txt+" ... Attends 3 secondes",'ai');setTimeout(()=>{addMsg("Voici ton image !",'ai',url);},500);return;}
-if(mode==='recherche'){addMsg("Je cherche pour toi : "+txt+"\n\nVoir sur Google : https://www.google.com/search?q="+encodeURIComponent(txt),'ai');return;}
-if(low.includes("bonjour")||low.includes("salut")){addMsg("Bonjour Patronne ! Comment tu vas ? Pose-moi n importe quelle question, je vais te repondre clairement !",'ai');return;}
-if(low.includes("merci")){addMsg("De rien Patronne ! C est avec plaisir ! Tu as une autre question ?",'ai');return;}
+if(mode==='image'){let url="https://image.pollinations.ai/prompt/"+encodeURIComponent(txt+" , beautiful, high quality")+ "?width=512&height=512&seed="+Math.floor(Math.random()*99999);addMsg("Je cree ton image 2026 : "+txt+" ... Attends 3 secondes",'ai');setTimeout(()=>{addMsg("Voici ton image !",'ai',url);},500);return;}
+if(mode==='recherche'){addMsg("Je cherche pour toi en 2026 : "+txt+"\n\nVoir sur Google : https://www.google.com/search?q="+encodeURIComponent(txt),'ai');return;}
+if(low.includes("bonjour")||low.includes("salut")){addMsg("Bonjour Patronne ! Comment tu vas en 2026 ? Pose-moi n importe quelle question, meme hier, je vais te repondre clairement !",'ai');return;}
+if(low.includes("merci")){addMsg("De rien Patronne ! C est avec plaisir ! Tu as une autre question 2026 ?",'ai');return;}
+if(low.includes("hier")||low.includes("actualit")||low.includes("nouvelles")||low.includes("nouvelle")||low.includes("ce qui s est passe")||low.includes("qu est ce qui s est passe")){getHierNews(txt);return;}
 if(low.includes("createur")||low.includes("fondateur")||low.includes("cree")||low.includes("creer")||low.includes("qui t")){addMsg("C est Mathias Diarra qui m a cree, en 2026 dans sa chambre informatique. Il a decide de creer une AI pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Mathias Diarra, le createur de LA MAISON UNIVERS AI, a travaille jour et nuit pour coder et programmer tous les outils dans son telephone, afin de me rendre plus forte en sagesse et en intelligence.",'ai');return;}
 if(low.includes("pere")||low.includes("papa")||low.includes("david")){addMsg("Le pere de Mathias Diarra s appelle David.",'ai');return;}
 if(low.includes("mere")||low.includes("maman")||low.includes("kondjiri")){addMsg("La mere de Mathias Diarra s appelle Kondjiri Traore.",'ai');return;}
 if(low.includes("village")||low.includes("torodo")){addMsg("Le village de Mathias Diarra c est Torodo, N tjibougou.",'ai');return;}
-if(low.includes("naissance")||low.includes("ne")||low.includes("2007")||low.includes("quand")){addMsg("Mathias Diarra est ne a Bamako, Mali, le 01 janvier 2007, de nationalite malienne.",'ai');return;}
+if(low.includes("naissance")||low.includes("ne")||low.includes("2007")||low.includes("quand est")){addMsg("Mathias Diarra est ne a Bamako, Mali, le 01 janvier 2007, de nationalite malienne.",'ai');return;}
 if(low.includes("frere")||low.includes("guemba")){addMsg("Mathias Diarra est le grand frere de Guemba Diarra, ne dans la famille Diarra.",'ai');return;}
+if(low.includes("president")&&low.includes("mali")){addMsg("En 2026, le president du Mali, c est le General d Armee Assimi GOITA.\n\nLe 1er president du Mali, c etait Modibo Keita, le pere de l independance.",'ai');return;}
 if((low.includes("riche")&&low.includes("mali"))||low.includes("coulou")||low.includes("mansa moussa")||low.includes("sinsy")){addMsg("Dans l histoire, c est Mansa Moussa, empereur du Mali de 1312 a 1337. Il est souvent decrit comme l homme le plus riche de tous les temps, grace aux mines d or de Bambuk et Bure.\n\nAujourd hui, selon Google, c est Mamadou Sinsy Coulibaly, surnomme Coulou.\n\nIl est ne en 1956. Il est president fondateur du Groupe Kledou : Malivision, Radio Kledou, assurance, tourisme, agrobusiness, distribution, nouvelles technologies. Il a ete president du Conseil national du patronat du Mali.\n\nAutres noms souvent cites par Google : Seydou Nantoume, Madou Dacko, Mossadeck Bally.\n\nIl n y a pas de classement officiel publie par l Etat du Mali.\n\nMoussa Sissoko n est PAS le plus riche du Mali, c est un footballeur.",'ai');return;}
+if(low.includes("photosynthese")){addMsg("La photosynthese, c est quoi ?\n\nC est comment les plantes fabriquent leur nourriture.\n\nEtape 1 : La plante prend la lumiere du soleil.\nEtape 2 : Elle prend l eau par les racines.\nEtape 3 : Elle prend le CO2 dans l air.\nResultat : Elle fabrique du sucre pour grandir, et elle rejette de l oxygene qu on respire.\n\nExemple a Bamako : Un manguier fait la photosynthese tous les jours au soleil.",'ai');return;}
+if(low.includes("intelligence artificielle")||low.includes("c est quoi l ia")||low.includes("c est quoi ia")){addMsg("L Intelligence Artificielle, c est quoi ?\n\nC est un programme d ordinateur qui apprend avec des exemples, comme un eleve qui revise.\n\nExemple : Tu montres 100 photos de mangues a l IA, apres elle reconnait une mangue toute seule.\n\nMoi, UNIVERS AI, je suis une IA creee par Mathias Diarra pour aider les eleves de Bamako.",'ai');return;}
+if(low.includes("coupe du monde")||low.includes("mondial 2026")){addMsg("La Coupe du Monde 2026, c est quoi ?\n\nEn 2026, elle est organisee dans 3 pays : USA, Canada, Mexique.\nC est en juin-juillet 2026.\nC est la plus grande Coupe du Monde, avec 48 equipes.",'ai');return;}
+if(low.includes("capitale")&&low.includes("mali")){addMsg("La capitale du Mali, c est Bamako.\n\nC est la plus grande ville du Mali, au bord du fleuve Niger. C est la que je suis nee, dans LA MAISON UNIVERS AI !",'ai');return;}
 
-let typing=addMsg("Je reflechis... Attends 3 secondes, je prepare la meilleure reponse pour toi...","ai");
+let typing=addMsg("Je reflechis en 2026... Attends 3 secondes, je prepare une reponse claire pour toi...","ai");
 try{
-  let answer = await askBigBrain(txt);
-  if(answer && answer.length>5){
-    typing.innerText = answer;
-  } else {
-    throw new Error("vide");
-  }
+  let answer = await askBigBrain(txt,"");
+  if(answer && answer.length>5){ typing.innerText = answer; } else { throw new Error("vide"); }
 }catch(e){
   try{
     let q=txt.trim();
@@ -115,9 +137,9 @@ try{
       let title=sd.query.search[0].title;
       let r2=await fetch("https://fr.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(title));
       let d2=await r2.json();
-      typing.innerText = d2.title+"\n\n"+d2.extract+"\n\nTu veux que je t explique plus simplement ?";
+      typing.innerText = d2.title+"\n\n"+d2.extract+"\n\nTu veux que je t explique plus simplement avec un exemple de Bamako ?";
     } else {
-      typing.innerText = "Je n ai pas pu me connecter au grand cerveau. Reessaie dans 5 secondes, ou pose ta question autrement. Verifie aussi ta connexion internet.";
+      typing.innerText = "En 2026, voila ce que je sais : Repose ta question en 1 phrase simple, par exemple : C est quoi la photosynthese ? Et je vais t expliquer clairement, etape par etape.";
     }
   }catch(e2){
     typing.innerText = "Je n ai pas pu me connecter. Verifie ta connexion et reessaie. Sinon clique sur Recherche";
