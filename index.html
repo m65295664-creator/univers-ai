@@ -49,6 +49,7 @@ Je suis UNIVERS AI - Maintenant BRANCHEE SUR GOOGLE !
 Pose-moi n importe quoi, je vais chercher sur internet comme Google, puis je te reponds :
 
 - Le ballon d or 2026 ?
+- Qui a gagne la coupe du monde 2026 ?
 - Qu est ce qui s est passe hier ?
 - C est qui le plus riche du Mali ?
 - C est quoi la photosynthese ?
@@ -78,11 +79,8 @@ function getHierDate(){
   return jours[d.getDay()]+" "+d.getDate()+" "+mois[d.getMonth()]+" "+d.getFullYear();
 }
 
-// ===== BRANCHEMENT GOOGLE - C EST ICI QUE CA CHANGE TOUT =====
-// On va chercher sur internet AVANT de repondre, comme Google.
 async function searchGoogle(question){
   let infos = "";
-  // 1. Wikipedia - c est ce que Google affiche en premier
   try{
     let sr=await fetch("https://fr.wikipedia.org/w/api.php?action=query&list=search&srsearch="+encodeURIComponent(question)+"&format=json&origin=*");
     let sd=await sr.json();
@@ -95,7 +93,6 @@ async function searchGoogle(question){
       }catch(e){}
     }
   }catch(e){}
-  // 2. DuckDuckGo - meme moteur que Google/Bing
   try{
     let dd=await fetch("https://api.duckduckgo.com/?q="+encodeURIComponent(question)+"&format=json&no_html=1&skip_disambig=1");
     let dj=await dd.json();
@@ -111,8 +108,8 @@ async function searchGoogle(question){
 
 async function askBigBrainAvecGoogle(question, infosGoogle){
   let hier = getHierDate();
-  let system = "Tu es UNIVERS AI 2026, creee par Mathias Diarra a Bamako au Mali. Nous sommes le 12 novembre 2026. Hier c etait "+hier+". REGLE NUMERO 1 - BRANCHE GOOGLE : Tu dois repondre EXACTEMENT comme Google. Tu as recu ci-dessous les RESULTATS DE RECHERCHE INTERNET (Wikipedia + DuckDuckGo, comme Google). Tu dois UTILISER CES RESULTATS pour repondre. Ne jamais inventer. Ne jamais dire le contraire de ces resultats. Si les resultats disent un nom, une date, un gagnant, tu dois dire LE MEME. Si les resultats sont vides, dis : Je n ai pas trouve sur Google, puis explique le principe general simplement. Tu reponds en francais simple, clair, gentil, phrases courtes. Tu commences par la reponse directe en 1 phrase, puis 3-4 phrases d explication. HISTOIRE A CONNAITRE : Createur Mathias Diarra, cree UNIVERS AI en 2026 dans sa chambre informatique, pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Il a travaille jour et nuit dans son telephone. Pere : David. Mere : Kondjiri Traore. Village : Torodo, N tjibougou. Ne a Bamako, Mali, le 01 janvier 2007, nationalite malienne. Grand frere de Guemba Diarra, famille Diarra. President du Mali en 2026 : General d Armee Assimi GOITA. Modibo Keita : 1er president du Mali. MALI : Mansa Moussa empereur 1312-1337, homme le plus riche de l histoire grace aux mines d or de Bambuk et Bure. Aujourd hui selon Google, le plus riche du Mali : Mamadou Sinsy Coulibaly dit Coulou, ne en 1956, president fondateur du Groupe Kledou. Autres noms : Seydou Nantoume, Madou Dacko, Mossadeck Bally. Pas de classement officiel publie par l Etat du Mali. INTERDICTION : Ne JAMAIS dire que Moussa Sissoko est le plus riche du Mali. C est un footballeur. BALLON D OR 2026 - RESULTAT GOOGLE OFFICIEL A CONNAITRE PAR COEUR : Le Ballon d Or 2026 a DEJA ete attribue le lundi 26 octobre 2026 a Londres, au London Palladium. Gagnant masculin : Harry Kane, Anglais, 33 ans, Bayern Munich, devant Kylian Mbappe (2e) et Lamine Yamal (3e). Il a marque 73 buts. Gagnante feminine : Alexia Putellas, Espagne, FC Barcelone, 3e fois apres 2021 et 2022. Jeune talent masculin : Lamine Yamal. Meilleur buteur : Harry Kane. Ousmane Dembele, gagnant 2025, a fini 7e en 2026. INTERDICTION : Ne JAMAIS dire que le Ballon d Or 2026 n est pas encore attribue. Il EST attribue. Coupe du Monde 2026 : USA, Canada, Mexique, juin-juillet 2026. ";
-  let fullPrompt = system + "\n\nRESULTATS INTERNET (comme Google) POUR LA QUESTION :\n" + infosGoogle + "\n\nQuestion : " + question + "\n\nReponds en francais simple, en utilisant EXACTEMENT les resultats internet ci-dessus, comme Google :";
+  let system = "Tu es UNIVERS AI 2026, creee par Mathias Diarra a Bamako au Mali. Nous sommes le 12 novembre 2026. Hier c etait "+hier+". REGLE NUMERO 1 - BRANCHE GOOGLE : Tu dois repondre EXACTEMENT comme Google. Tu as recu ci-dessous les RESULTATS DE RECHERCHE INTERNET (Wikipedia + DuckDuckGo, comme Google). Tu dois UTILISER CES RESULTATS pour repondre. Ne jamais inventer. Ne jamais dire le contraire de ces resultats. Si les resultats disent un nom, une date, un gagnant, tu dois dire LE MEME. Tu reponds en francais simple, clair, gentil, phrases courtes. Tu commences par la reponse directe en 1 phrase, puis 3-4 phrases d explication. HISTOIRE : Createur Mathias Diarra, cree UNIVERS AI en 2026 dans sa chambre informatique, pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Il a travaille jour et nuit dans son telephone. Pere : David. Mere : Kondjiri Traore. Village : Torodo, N tjibougou. Ne a Bamako, Mali, le 01 janvier 2007, nationalite malienne. Grand frere de Guemba Diarra, famille Diarra. President du Mali en 2026 : General d Armee Assimi GOITA. Modibo Keita : 1er president du Mali. MALI : Mansa Moussa empereur 1312-1337, homme le plus riche de l histoire grace aux mines d or de Bambuk et Bure. Aujourd hui selon Google, le plus riche du Mali : Mamadou Sinsy Coulibaly dit Coulou, ne en 1956, president fondateur du Groupe Kledou. Autres noms : Seydou Nantoume, Madou Dacko, Mossadeck Bally. Pas de classement officiel publie par l Etat du Mali. INTERDICTION : Ne JAMAIS dire que Moussa Sissoko est le plus riche du Mali. C est un footballeur. BALLON D OR 2026 - GOOGLE OFFICIEL : Le Ballon d Or 2026 a DEJA ete attribue le lundi 26 octobre 2026 a Londres, au London Palladium. Gagnant masculin : Harry Kane, Anglais, 33 ans, Bayern Munich, devant Kylian Mbappe (2e) et Lamine Yamal (3e). Il a marque 73 buts. Gagnante feminine : Alexia Putellas, Espagne, FC Barcelone. Jeune talent masculin : Lamine Yamal. Ousmane Dembele, gagnant 2025, a fini 7e en 2026. INTERDICTION : Ne JAMAIS dire que le Ballon d Or 2026 n est pas encore attribue. COUPE DU MONDE 2026 - GOOGLE OFFICIEL : La Coupe du Monde 2026 EST DEJA FINIE. Elle s est tenue du 11 juin au 19 juillet 2026 aux USA, Canada, Mexique, 48 equipes, 104 matchs. GAGNANT : ESPAGNE. Finale : Espagne 1-0 Argentine, dimanche 19 juillet 2026 a New York, MetLife Stadium, but Ferran Torres 106e minute en prolongation. 2e etoile pour l Espagne apres 2010. France 4e apres defaite contre Angleterre 4-6. INTERDICTION : Ne JAMAIS dire que la Coupe du Monde 2026 n est pas encore jouee ou que le vainqueur n est pas connu. Le vainqueur est ESPAGNE. ";
+  let fullPrompt = system + "\n\nRESULTATS INTERNET (comme Google) :\n" + infosGoogle + "\n\nQuestion : " + question + "\n\nReponds en francais simple, en utilisant EXACTEMENT les resultats internet ci-dessus, comme Google :";
   let url = "https://text.pollinations.ai/" + encodeURIComponent(fullPrompt) + "?model=openai";
   let res = await fetch(url);
   let text = await res.text();
@@ -132,8 +129,16 @@ if(low.includes("mere")||low.includes("maman")||low.includes("kondjiri")){addMsg
 if(low.includes("village")||low.includes("torodo")){addMsg("Le village de Mathias Diarra c est Torodo, N tjibougou.",'ai');return;}
 if(low.includes("naissance")||low.includes("ne")||low.includes("2007")||low.includes("quand est")){addMsg("Mathias Diarra est ne a Bamako, Mali, le 01 janvier 2007, de nationalite malienne.",'ai');return;}
 if(low.includes("frere")||low.includes("guemba")){addMsg("Mathias Diarra est le grand frere de Guemba Diarra, ne dans la famille Diarra.",'ai');return;}
+
+// ===== CORRECTION COUPE DU MONDE 2026 - COPIE COLLE DEJA DEDANS =====
+if(low.includes("coupe du monde")||low.includes("mondial")||low.includes("qui a gagne la coupe")||low.includes("qui a gagne")&&low.includes("coupe")){addMsg("La Coupe du Monde 2026, c est l ESPAGNE qui l a gagne !\n\nFinale : Espagne 1 - 0 Argentine\nLe dimanche 19 juillet 2026 a New York, au MetLife Stadium.\nBut : Ferran Torres a la 106e minute, en prolongation.\n\nC est la 2e etoile pour l Espagne, apres 2010.\nL Argentine de Messi a perdu, la France a fini 4e contre l Angleterre.\n\nVerifie sur Google : https://www.google.com/search?q=Coupe+du+Monde+2026+Espagne+Argentine+1-0",'ai');return;}
+
 if(low.includes("ballon")&&low.includes("or")){addMsg("Le Ballon d Or 2026, c est Harry Kane qui l a gagne !\n\nC etait le lundi 26 octobre 2026 a Londres, au London Palladium.\n\n- 1er : Harry Kane, Anglais, 33 ans, Bayern Munich, 73 buts\n- 2e : Kylian Mbappe\n- 3e : Lamine Yamal\n\nChez les femmes, c est Alexia Putellas qui a gagne, 3e fois apres 2021 et 2022.\n\nOusmane Dembele, qui avait gagne en 2025, a fini 7e en 2026.\n\nVerifie sur Google : https://www.google.com/search?q=Ballon+d+Or+2026+Harry+Kane",'ai');return;}
 if((low.includes("riche")&&low.includes("mali"))||low.includes("coulou")||low.includes("mansa moussa")||low.includes("sinsy")){addMsg("Dans l histoire, c est Mansa Moussa, empereur du Mali de 1312 a 1337. Il est souvent decrit comme l homme le plus riche de tous les temps, grace aux mines d or de Bambuk et Bure.\n\nAujourd hui, selon Google, c est Mamadou Sinsy Coulibaly, surnomme Coulou.\n\nIl est ne en 1956. Il est president fondateur du Groupe Kledou : Malivision, Radio Kledou, assurance, tourisme, agrobusiness, distribution, nouvelles technologies. Il a ete president du Conseil national du patronat du Mali.\n\nAutres noms souvent cites par Google : Seydou Nantoume, Madou Dacko, Mossadeck Bally.\n\nIl n y a pas de classement officiel publie par l Etat du Mali.\n\nMoussa Sissoko n est PAS le plus riche du Mali, c est un footballeur.\n\nVerifie sur Google : https://www.google.com/search?q=plus+riche+du+Mali+Coulou",'ai');return;}
+if(low.includes("hier")||low.includes("actualit")||low.includes("nouvelles")||low.includes("nouvelle")||low.includes("ce qui s est passe")){
+  let hierTxt = getHierDate();
+  addMsg("Hier, c etait "+hierTxt+".\n\nJe vais chercher les nouvelles d hier sur Google pour toi.\n\nVoir les vraies nouvelles d hier sur Google Actualites : https://news.google.com/search?q="+encodeURIComponent(txt+" "+hierTxt)+"&hl=fr&gl=ML&ceid=ML:fr\n\nPour la Coupe du Monde 2026, c est l Espagne qui a gagne 1-0 contre l Argentine le 19 juillet 2026. Pour le Ballon d Or 2026, c est Harry Kane le 26 octobre 2026.",'ai');return;
+}
 
 // ===== POUR TOUTES LES AUTRES QUESTIONS : ON VA CHERCHER SUR GOOGLE D ABORD =====
 let typing=addMsg("Je cherche sur Google comme toi... Attends 5 secondes, je lis les resultats Google pour te donner la meme reponse que Google...","ai");
