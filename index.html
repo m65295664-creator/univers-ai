@@ -8,10 +8,13 @@
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 body{background:#020617;color:white;padding:10px;padding-bottom:20px}
 .header{text-align:center;background:linear-gradient(#0ea5e9,#020617);padding:15px 10px;border-radius:15px;border:1px solid #00e5ff}
-.header img{width:120px;height:120px;object-fit:contain;background:white;border-radius:50%;padding:5px}
+.header img{width:110px;height:110px;object-fit:contain;background:white;border-radius:50%;padding:5px}
 .header h1{color:#00e5ff;font-size:24px;margin-top:5px}
 .header p{color:#7dd3fc;font-size:13px;font-weight:bold}
-.keysBox{background:#0f172a;border:1px dashed #00e5ff;border-radius:12px;padding:10px;margin-top:12px}
+.langBox{background:#0f172a;border:1px solid #00e5ff;border-radius:12px;padding:10px;margin-top:12px;text-align:center}
+.langBox b{color:#00e5ff;font-size:14px}
+.langBox select{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:none;background:#1e293b;color:white;font-size:15px;font-weight:bold}
+.keysBox{background:#0f172a;border:1px dashed #00e5ff;border-radius:12px;padding:10px;margin-top:10px}
 .keysBox b{color:#00e5ff;font-size:13px}
 .keysBox input{width:100%;padding:10px;margin:5px 0;border-radius:10px;border:none;background:#1e293b;color:white;font-size:13px}
 .keysBox button{background:#00e5ff;border:none;padding:10px;width:100%;border-radius:10px;font-weight:bold;cursor:pointer;color:#020617}
@@ -31,43 +34,71 @@ body{background:#020617;color:white;padding:10px;padding-bottom:20px}
 #previewArea img{width:100%;max-height:250px;object-fit:contain;border-radius:10px}
 #previewArea button{background:#00e5ff;border:none;padding:10px 12px;border-radius:20px;font-weight:bold;margin-top:8px;cursor:pointer}
 .footer{text-align:center;margin-top:15px;font-size:12px;color:#94a3b8}
-a{color:#00e5ff}
 </style>
 </head>
 <body>
 <div class="header">
 <img src="file_00000000fa3481f6bdd04a1cd48d0156.png" alt="UNIVERS AI">
 <h1>UNIVERS AI</h1>
-<p>OpenRouter + Exa + Gemini • Architecture Pro 2026<br>Mathias Diarra - Bamako, Mali</p>
+<p id="headerSub">OpenRouter + Exa + Gemini • Architecture Pro 2026<br>Mathias Diarra - Bamako, Mali</p>
+</div>
+
+<div class="langBox">
+<b>🌍 Choisis ta langue / Choose your language / Sugandi kan na</b>
+<select id="langSelect" onchange="changeLang()">
+<option value="fr">🇫🇷 Français</option>
+<option value="bm">🇲🇱 Bambara - Bamanankan</option>
+<option value="en">🇺🇸 English</option>
+<option value="es">🇪🇸 Español</option>
+<option value="ar">🇸🇦 العربية - Arabe</option>
+<option value="pt">🇵🇹 Português</option>
+<option value="de">🇩🇪 Deutsch</option>
+<option value="it">🇮🇹 Italiano</option>
+<option value="zh">🇨🇳 中文 - Chinois</option>
+<option value="hi">🇮🇳 हिन्दी - Hindi</option>
+<option value="ru">🇷🇺 Русский</option>
+<option value="tr">🇹🇷 Türkçe</option>
+<option value="sw">🇹🇿 Kiswahili</option>
+<option value="ha">🇳🇬 Hausa</option>
+<option value="yo">🇳🇬 Yoruba</option>
+<option value="ig">🇳🇬 Igbo</option>
+<option value="wo">🇸🇳 Wolof</option>
+<option value="ff">🇬🇳 Fulfulde / Peul</option>
+<option value="son">🇲🇱 Songhaï</option>
+<option value="dyu">🇲🇱 Dioula</option>
+</select>
+<p id="langInfo" style="font-size:12px;margin-top:6px;color:#7dd3fc">Langue actuelle : Français. UNIVERS AI va répondre et chercher dans cette langue.</p>
 </div>
 
 <div class="keysBox">
-<b>🔐 PATRONNE - MES CLES SECRETS (reste dans ton téléphone seulement, pas dans GitHub)</b>
+<b>🔐 PATRONNE - MES CLES SECRETS (reste dans ton téléphone seulement)</b>
 <input id="k1" placeholder="1. Colle ici ta NOUVELLE clé OpenRouter">
 <input id="k2" placeholder="2. Colle ici ta NOUVELLE clé Exa">
 <input id="k3" placeholder="3. Colle ici ta NOUVELLE clé Gemini">
 <button onclick="saveKeys()">💾 Sauvegarder mes clés et Activer UNIVERS AI</button>
-<p id="keysStatus" style="font-size:12px;margin-top:6px;color:#7dd3fc">Tu n'as pas encore mis tes clés.</p>
+<p id="keysStatus" style="font-size:12px;margin-top:6px;color:#7dd3fc">Vérification...</p>
 </div>
 
 <div class="tabs">
-<div class="tab active" onclick="setMode('chat',this)">Chat</div>
-<div class="tab" onclick="setMode('image',this)">Image</div>
-<div class="tab" onclick="setMode('recherche',this)">Recherche</div>
+<div class="tab active" onclick="setMode('chat',this)">💬 Chat</div>
+<div class="tab" onclick="setMode('image',this)">🎨 Image</div>
+<div class="tab" onclick="setMode('recherche',this)">🔍 Recherche</div>
 </div>
 <div id="chatBox">
-<div class="msg ai">Bonjour Patronne !
-Je suis UNIVERS AI - Version Sécurisée !
-- Cerveau principal : OpenRouter
-- Recherche mondiale : Exa
-- Cerveau secours : Gemini
-Mets tes 3 clés en haut, clique Sauvegarder, puis pose-moi :
-- Qui a gagne la coupe du monde 2026 ?
-- Le ballon d or 2026 ?
-- Qu est ce qui s est passe hier ?
-- C est qui le plus riche du Mali ?</div>
+<div class="msg ai" id="welcomeMsg">Bonjour Patronne !
+Je suis UNIVERS AI V2 - Propre, Rapide, Sans Faute !
+- Cerveau : OpenRouter
+- Recherche : Exa
+- Secours : Gemini
+- Langues : 20 langues
+
+Choisis ta langue en haut, puis pose-moi :
+- Qui a gagné la coupe du monde 2026 ?
+- Le ballon d'or 2026 ?
+- Raconte-moi un proverbe qui fait sourire ?
+- C'est qui le plus riche du Mali ?</div>
 </div>
-<div id="previewArea"><p>Ta photo est prete :</p><img id="previewImg"><br><button onclick="sendPhotoToAI()">Envoyer a l IA</button> <button onclick="cancelPhoto()" style="background:#475569;color:white">Annuler</button></div>
+<div id="previewArea"><p>Ta photo est prête :</p><img id="previewImg"><br><button onclick="sendPhotoToAI()">Envoyer à l'IA</button> <button onclick="cancelPhoto()" style="background:#475569;color:white">Annuler</button></div>
 <div class="inputArea">
 <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="showPreview(event)">
 <button id="photoBtn" onclick="document.getElementById('fileInput').click()">📷</button>
@@ -76,14 +107,53 @@ Mets tes 3 clés en haut, clique Sauvegarder, puis pose-moi :
 </div>
 <p class="footer">MAISON UNIVERS AI 2026 - OpenRouter + Exa + Gemini - Mathias Diarra - Bamako</p>
 <script>
-// AUCUNE CLE ICI - C EST NORMAL - LES CLES SONT DANS TON TELEPHONE SEULEMENT
+// ===== UNIVERS AI V2 - AUCUNE CLE EN DUR - 100% SECURISE =====
 let OPENROUTER_KEY = localStorage.getItem("UNIVERS_OPENROUTER") || "";
 let EXA_KEY = localStorage.getItem("UNIVERS_EXA") || "";
 let GEMINI_KEY = localStorage.getItem("UNIVERS_GEMINI") || "";
+let currentLang = localStorage.getItem("UNIVERS_LANG") || "fr";
+document.getElementById('langSelect').value = currentLang;
 if(OPENROUTER_KEY) document.getElementById('k1').value = OPENROUTER_KEY;
 if(EXA_KEY) document.getElementById('k2').value = EXA_KEY;
 if(GEMINI_KEY) document.getElementById('k3').value = GEMINI_KEY;
 updateStatus();
+applyLangUI();
+
+const LANGS = {
+fr:{name:"Français", ask:"Pose-moi une question...", send:"Envoyer", hello:"Bonjour Patronne ! Je suis UNIVERS AI V2 - Propre, Rapide, Sans Faute !", search:"Je cherche avec Exa... Attends 2 secondes...", needKeys:"Patronne, mets d'abord tes 3 clés en haut et clique Sauvegarder.", prompt:"Réponds en FRANÇAIS, simple, clair, phrases courtes. Ne jamais inventer. Utilise seulement les résultats de recherche."},
+bm:{name:"Bambara", ask:"N'ningali fen o fen...", send:"Ci", hello:"I ni ce Patronne ! Ne ye UNIVERS AI V2 ye - Saniman, Teliya, Fili te a la !", search:"N b'a nyini Exa fè... A to fo dɔɔnin...", needKeys:"Patronne, i ka cle 3 fɔlɔ da a kan, ka Sauvegarder digi.", prompt:"Réponds en BAMBARA (Bamanankan), simple et clair. Ne jamais inventer. Utilise seulement les résultats de recherche."},
+en:{name:"English", ask:"Ask me a question...", send:"Send", hello:"Hello Boss ! I am UNIVERS AI V2 - Clean, Fast, No Mistake !", search:"I am searching with Exa... Wait 2 seconds...", needKeys:"Boss, put your 3 keys on top first and click Save.", prompt:"Answer in ENGLISH, simple, clear, short sentences. Never invent. Use only search results."},
+es:{name:"Español", ask:"Hazme una pregunta...", send:"Enviar", hello:"¡Hola Jefa! Soy UNIVERS AI V2 - Limpio, Rápido, Sin Errores!", search:"Estoy buscando con Exa... Espera 2 segundos...", needKeys:"Jefa, pon primero tus 3 claves arriba y pulsa Guardar.", prompt:"Responde en ESPAÑOL, simple, claro, frases cortas. Nunca inventes. Usa solo los resultados de búsqueda."},
+ar:{name:"العربية", ask:"اسألني سؤالاً...", send:"إرسال", hello:"مرحبا سيدتي! أنا UNIVERS AI V2 - نظيف، سريع، بدون أخطاء!", search:"أبحث مع Exa... انتظر ثانيتين...", needKeys:"سيدتي، ضعي مفاتيحك الثلاثة في الأعلى أولاً واضغطي حفظ.", prompt:"Answer in ARABIC, simple and clear. Never invent. Use only search results."},
+pt:{name:"Português", ask:"Faça-me uma pergunta...", send:"Enviar", hello:"Olá Chefe! Eu sou UNIVERS AI V2 - Limpo, Rápido, Sem Erros!", search:"Estou a pesquisar com Exa... Espera 2 segundos...", needKeys:"Chefe, coloca primeiro as tuas 3 chaves em cima e clica Guardar.", prompt:"Responde em PORTUGUÊS, simples, claro. Nunca inventes. Usa só os resultados da pesquisa."},
+de:{name:"Deutsch", ask:"Stelle mir eine Frage...", send:"Senden", hello:"Hallo Chefin! Ich bin UNIVERS AI V2 - Sauber, Schnell, Fehlerfrei!", search:"Ich suche mit Exa... Warte 2 Sekunden...", needKeys:"Chefin, trage zuerst deine 3 Schlüssel oben ein und klicke Speichern.", prompt:"Antworte auf DEUTSCH, einfach und klar. Erfinde nie etwas. Nutze nur Suchergebnisse."},
+it:{name:"Italiano", ask:"Fammi una domanda...", send:"Invia", hello:"Ciao Capo! Sono UNIVERS AI V2 - Pulito, Veloce, Senza Errori!", search:"Sto cercando con Exa... Aspetta 2 secondi...", needKeys:"Capo, metti prima le tue 3 chiavi in alto e clicca Salva.", prompt:"Rispondi in ITALIANO, semplice e chiaro. Non inventare mai. Usa solo i risultati di ricerca."},
+zh:{name:"中文", ask:"问我一个问题...", send:"发送", hello:"你好老板！我是 UNIVERS AI V2 - 干净、快速、无错误！", search:"我正在用 Exa 搜索...请等2秒...", needKeys:"老板，请先在上面输入你的3个密钥，然后点击保存。", prompt:"Answer in CHINESE, simple and clear. Never invent. Use only search results."},
+hi:{name:"हिन्दी", ask:"मुझसे कोई सवाल पूछें...", send:"भेजें", hello:"नमस्ते बॉस! मैं UNIVERS AI V2 हूँ - साफ, तेज़, बिना गलती!", search:"मैं Exa से खोज रहा हूँ... 2 सेकंड प्रतीक्षा करें...", needKeys:"बॉस, पहले ऊपर अपनी 3 चाबियाँ डालें और सहेजें पर क्लिक करें।", prompt:"Answer in HINDI, simple and clear. Never invent. Use only search results."},
+ru:{name:"Русский", ask:"Задай мне вопрос...", send:"Отправить", hello:"Привет, Босс! Я UNIVERS AI V2 - Чистый, Быстрый, Без Ошибок!", search:"Ищу с Exa... Подожди 2 секунды...", needKeys:"Босс, сначала введи свои 3 ключа наверху и нажми Сохранить.", prompt:"Answer in RUSSIAN, simple and clear. Never invent. Use only search results."},
+tr:{name:"Türkçe", ask:"Bana bir soru sor...", send:"Gönder", hello:"Merhaba Patron! Ben UNIVERS AI V2 - Temiz, Hızlı, Hatasız!", search:"Exa ile arıyorum... 2 saniye bekle...", needKeys:"Patron, önce yukarıya 3 anahtarını gir ve Kaydet'e tıkla.", prompt:"Answer in TURKISH, simple and clear. Never invent. Use only search results."},
+sw:{name:"Kiswahili", ask:"Niulize swali...", send:"Tuma", hello:"Habari Boss! Mimi ni UNIVERS AI V2 - Safi, Haraka, Bila Makosa!", search:"Ninatafuta na Exa... Subiri sekunde 2...", needKeys:"Boss, weka funguo zako 3 hapo juu kwanza na ubonyeze Hifadhi.", prompt:"Answer in SWAHILI, simple and clear. Never invent. Use only search results."},
+ha:{name:"Hausa", ask:"Tambaye ni tambaya...", send:"Aika", hello:"Sannu Boss! Ni ne UNIVERS AI V2 - Tsaftace, Mai Sauri, Ba Kuskure!", search:"Ina bincike da Exa... Jira seconds 2...", needKeys:"Boss, saka maɓallanka 3 a sama da farko ka danna Ajiye.", prompt:"Answer in HAUSA, simple and clear. Never invent. Use only search results."},
+yo:{name:"Yoruba", ask:"Beere lọwọ mi ibeere...", send:"Firanṣẹ", hello:"Ẹ n lẹ Boss! Emi ni UNIVERS AI V2 - Mọ, Yara, Laisi Aṣiṣe!", search:"Mo n wa pẹlu Exa... Duro iṣẹju 2...", needKeys:"Boss, fi awọn bọtini 3 rẹ si oke akọkọ ki o tẹ Fipamọ.", prompt:"Answer in YORUBA, simple and clear. Never invent. Use only search results."},
+ig:{name:"Igbo", ask:"Jụọ m ajụjụ...", send:"Zipu", hello:"Ndewo Boss! Abụ m UNIVERS AI V2 - Dị Ọcha, Ọsọ, Enweghị Njehie!", search:"Ana m achọ na Exa... Chere sekọnd 2...", needKeys:"Boss, tinye igodo 3 gị n'elu mbụ wee pịa Chekwa.", prompt:"Answer in IGBO, simple and clear. Never invent. Use only search results."},
+wo:{name:"Wolof", ask:"Laaj ma laaj...", send:"Yónne", hello:"Salaam Boss! Man laa UNIVERS AI V2 - Set, Gaaw, Amul Njuumte!", search:"Maa ngi seet ak Exa... Xaara 2 sekon...", needKeys:"Boss, dugal sa 3 clés ci kaw, te bësal Sauvegarder.", prompt:"Answer in WOLOF, simple and clear. Never invent. Use only search results."},
+ff:{name:"Fulfulde", ask:"Lamndam lamndal...", send:"Nul", hello:"Jam Boss! Mi woni UNIVERS AI V2 - Laaɓuɗo, Kesiɗo, Alaa Fali!", search:"Miɗo tefude e Exa... Haaɗo sekon 2...", needKeys:"Boss, wattu coktirɗe maa 3 dow, a ɓuuɓu Danndo.", prompt:"Answer in FULFULDE, simple and clear. Never invent. Use only search results."},
+son:{name:"Songhaï", ask:"Hã buru hã...", send:"Samba", hello:"Fofo Boss! Ay ga UNIVERS AI V2 - Hanse, Caha, Sanda Taali si!", search:"Ay go te hãn Exa ra... Kotto sekon 2...", needKeys:"Boss, dan ni cle 3 ni beene, ka Sauvegarder digi.", prompt:"Answer in SONGHAI, simple and clear. Never invent. Use only search results."},
+dyu:{name:"Dioula", ask:"N'ningali...", send:"Ci", hello:"I ni ce Patronne! Ne ye UNIVERS AI V2 ye!", search:"N b'a nyini Exa fè...", needKeys:"Patronne, i ka cle 3 da a kan fɔlɔ.", prompt:"Answer in DIOULA, simple and clear. Never invent. Use only search results."}
+};
+function getLang(){ return LANGS[currentLang] || LANGS.fr; }
+function changeLang(){
+  currentLang = document.getElementById('langSelect').value;
+  localStorage.setItem("UNIVERS_LANG", currentLang);
+  applyLangUI();
+  addMsg(getLang().hello + " | Langue : " + getLang().name,'ai');
+}
+function applyLangUI(){
+  let L = getLang();
+  document.getElementById('userInput').placeholder = L.ask;
+  document.getElementById('sendBtn').innerText = L.send;
+  document.getElementById('langInfo').innerText = "Langue actuelle : " + L.name + ". UNIVERS AI va répondre et chercher dans cette langue.";
+}
 function saveKeys(){
   OPENROUTER_KEY = document.getElementById('k1').value.trim();
   EXA_KEY = document.getElementById('k2').value.trim();
@@ -92,104 +162,54 @@ function saveKeys(){
   localStorage.setItem("UNIVERS_EXA", EXA_KEY);
   localStorage.setItem("UNIVERS_GEMINI", GEMINI_KEY);
   updateStatus();
-  addMsg("Merci Patronne ! Tes clés sont sauvegardées dans ton téléphone seulement. GitHub ne les voit plus. Maintenant Envoyer va marcher ! Teste-moi : Qui a gagne la coupe du monde 2026 ?",'ai');
+  addMsg("Merci Patronne ! Tes clés sont sauvegardées dans ton téléphone seulement. GitHub ne les voit plus.",'ai');
 }
 function updateStatus(){
   let n = 0; if(OPENROUTER_KEY) n++; if(EXA_KEY) n++; if(GEMINI_KEY) n++;
   document.getElementById('keysStatus').innerText = n===3 ? "✅ 3/3 clés mises - UNIVERS AI est activé !" : "⚠️ "+n+"/3 clés mises - Mets tes 3 clés pour activer.";
 }
 let mode='chat'; let currentPhoto=null; let lastPhotoInfo='';
-function setMode(m,el){mode=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');let txt=m==='chat'?"Mode Chat Pro active !":m==='image'?"Mode Image active !":"Mode Recherche Exa active !";addMsg(txt,'ai');}
+function setMode(m,el){mode=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
 function addMsg(text,type,imgSrc){let box=document.getElementById('chatBox');let d=document.createElement('div');d.className='msg '+(type||'ai');d.innerText=text;if(imgSrc){let im=document.createElement('img');im.src=imgSrc;d.appendChild(im);}box.appendChild(d);box.scrollTop=box.scrollHeight;return d;}
 function showPreview(e){let f=e.target.files[0];if(!f)return;lastPhotoInfo="Nom: "+f.name+" | Taille: "+Math.round(f.size/1024)+" Ko";let r=new FileReader();r.onload=function(ev){currentPhoto=ev.target.result;document.getElementById('previewImg').src=currentPhoto;document.getElementById('previewArea').style.display='block';};r.readAsDataURL(f);}
 function cancelPhoto(){currentPhoto=null;document.getElementById('previewArea').style.display='none';document.getElementById('fileInput').value='';}
-function sendPhotoToAI(){if(!currentPhoto)return;addMsg("Voici ma photo, examine-la",'user',currentPhoto);document.getElementById('previewArea').style.display='none';currentPhoto=null;setTimeout(()=>{addMsg("J ai bien recu ta photo !\n\n"+lastPhotoInfo+"\n\nDis-moi en 1 phrase ce qu il y a sur la photo ? Et je vais t expliquer tout en detail !",'ai');},600);}
+function sendPhotoToAI(){if(!currentPhoto)return;addMsg("Voici ma photo, examine-la",'user',currentPhoto);document.getElementById('previewArea').style.display='none';currentPhoto=null;setTimeout(()=>{addMsg("J'ai bien reçu ta photo !\n\n"+lastPhotoInfo+"\n\nDis-moi en 1 phrase ce qu'il y a sur la photo ?",'ai');},600);}
+// ===== CORRECTION DES FAUTES : ON REGARDE LE MOT ENTIER, PAS UN MORCEAU =====
+function hasWord(text, words){
+  let clean = " " + text.toLowerCase().replace(/[.,!?;:']/g," ") + " ";
+  for(let w of words){ if(clean.includes(" "+w+" ")) return true; }
+  return false;
+}
+function hasPhrase(text, phrases){
+  let t = text.toLowerCase();
+  for(let p of phrases){ if(t.includes(p)) return true; }
+  return false;
+}
 function getHierDate(){let d=new Date(); d.setDate(d.getDate()-1);let jours=["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];let mois=["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"];return jours[d.getDay()]+" "+d.getDate()+" "+mois[d.getMonth()]+" "+d.getFullYear();}
 async function searchExa(question){
   if(!EXA_KEY) return "";
   try{
-    let res = await fetch("https://api.exa.ai/search",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":EXA_KEY},body:JSON.stringify({query:question,numResults:5,type:"auto",contents:{text:{maxCharacters:1000}}})});
-    let data = await res.json();
-    let infos = "";
-    if(data.results) data.results.forEach(r=>{ infos += "- " + r.title + " : " + (r.text ? r.text.substring(0,500) : (r.snippet||"")) + " | Source : " + r.url + "\n"; });
+    let res = await fetch("https://api.exa.ai/search",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":EXA_KEY},body:JSON.stringify({query:question,numResults:5,type:"auto",contents:{text:{maxCharacters:800}}})});
+    let data = await res.json(); let infos = "";
+    if(data.results) data.results.forEach(r=>{ infos += "- " + r.title + " : " + (r.text ? r.text.substring(0,400) : (r.snippet||"")) + " | Source : " + r.url + "\n"; });
     return infos;
   }catch(e){ return ""; }
 }
 async function searchSecours(question){
   let infos="";
   try{
-    let sr=await fetch("https://fr.wikipedia.org/w/api.php?action=query&list=search&srsearch="+encodeURIComponent(question)+"&format=json&origin=*");
+    let langWiki = (currentLang==='bm'||currentLang==='dyu') ? "fr" : (currentLang==='son' ? "fr" : currentLang);
+    if(!['fr','en','es','ar','pt','de','it','zh','hi','ru','tr','sw','ha','yo','ig','wo'].includes(langWiki)) langWiki="fr";
+    let sr=await fetch("https://"+langWiki+".wikipedia.org/w/api.php?action=query&list=search&srsearch="+encodeURIComponent(question)+"&format=json&origin=*");
     let sd=await sr.json();
     if(sd.query && sd.query.search.length>0){
       infos += "WIKIPEDIA : " + sd.query.search[0].title + " - " + sd.query.search[0].snippet.replace(/<[^>]*>/g,'') + "\n";
-      try{let r2=await fetch("https://fr.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(sd.query.search[0].title));let d2=await r2.json();if(d2.extract) infos += "RESUME : " + d2.extract.substring(0,700) + "\n";}catch(e){}
+      try{let r2=await fetch("https://"+langWiki+".wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(sd.query.search[0].title));let d2=await r2.json();if(d2.extract) infos += "RESUME : " + d2.extract.substring(0,600) + "\n";}catch(e){}
     }
-  }catch(e){}
-  try{
-    let dd=await fetch("https://api.duckduckgo.com/?q="+encodeURIComponent(question)+"&format=json&no_html=1&skip_disambig=1");
-    let dj=await dd.json();
-    if(dj.AbstractText) infos += "DUCKDUCKGO : " + dj.AbstractText.substring(0,700) + "\n";
   }catch(e){}
   return infos;
 }
 async function askOpenRouter(question, infosRecherche){
   if(!OPENROUTER_KEY) return null;
-  let hier = getHierDate();
-  let system = "Tu es UNIVERS AI 2026, creee par Mathias Diarra a Bamako au Mali. Nous sommes le 12 novembre 2026. Hier c etait "+hier+". Reponds EXACTEMENT comme les resultats de recherche Exa / Google. Ne jamais inventer. Reponds en francais simple, clair, phrases courtes. Createur : Mathias Diarra, cree UNIVERS AI en 2026 dans sa chambre informatique, pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Il a travaille jour et nuit dans son telephone. Pere : David. Mere : Kondjiri Traore. Village : Torodo, N tjibougou. Ne a Bamako, Mali, le 01 janvier 2007, nationalite malienne. Grand frere de Guemba Diarra, famille Diarra. President du Mali 2026 : General d Armee Assimi GOITA. Modibo Keita : 1er president. MALI : Mansa Moussa empereur 1312-1337, homme le plus riche de l histoire grace aux mines d or de Bambuk et Bure. Aujourd hui selon Google : Mamadou Sinsy Coulibaly dit Coulou, ne en 1956, president fondateur du Groupe Kledou. Autres noms : Seydou Nantoume, Madou Dacko, Mossadeck Bally. Pas de classement officiel publie par l Etat du Mali. INTERDICTION : Ne JAMAIS dire que Moussa Sissoko est le plus riche du Mali. BALLON D OR 2026 OFFICIEL : Attribue lundi 26 octobre 2026 a Londres. Gagnant : Harry Kane, Anglais, 33 ans, Bayern Munich, devant Kylian Mbappe et Lamine Yamal. 73 buts. Femmes : Alexia Putellas. Ousmane Dembele 2025 a fini 7e en 2026. INTERDICTION : Ne JAMAIS dire que le Ballon d Or 2026 n est pas encore attribue. COUPE DU MONDE 2026 OFFICIEL : DEJA FINIE du 11 juin au 19 juillet 2026, USA, Canada, Mexique, 48 equipes. GAGNANT : ESPAGNE. Finale : Espagne 1-0 Argentine, dimanche 19 juillet 2026 a New York, MetLife Stadium, but Ferran Torres 106e minute en prolongation. 2e etoile apres 2010. France 4e. INTERDICTION : Ne JAMAIS dire que la Coupe du Monde 2026 n est pas encore jouee.";
-  try{
-    let res = await fetch("https://openrouter.ai/api/v1/chat/completions",{method:"POST",headers:{"Authorization":"Bearer "+OPENROUTER_KEY,"Content-Type":"application/json"},body:JSON.stringify({model:"meta-llama/llama-3.1-8b-instruct:free",messages:[{role:"system",content:system},{role:"user",content:"RESULTATS DE RECHERCHE EXA / GOOGLE :\n"+infosRecherche+"\n\nQuestion : "+question+"\n\nReponds en francais simple, comme Google :"}]})});
-    let data = await res.json();
-    if(data.choices && data.choices[0]) return data.choices[0].message.content;
-    return null;
-  }catch(e){ return null; }
-}
-async function askGemini(question, infosRecherche){
-  if(!GEMINI_KEY) return null;
-  try{
-    let prompt = "Tu es UNIVERS AI 2026, creee par Mathias Diarra a Bamako. Reponds en francais simple et clair. Utilise ces resultats de recherche : "+infosRecherche+" Question : "+question+" BALLON D OR 2026 : Harry Kane le 26 octobre 2026 a Londres. COUPE DU MONDE 2026 : Espagne 1-0 Argentine le 19 juillet 2026, but Ferran Torres 106e. PLUS RICHE DU MALI AUJOURD HUI : Mamadou Sinsy Coulibaly dit Coulou. HISTOIRE : Mansa Moussa.";
-    let res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+GEMINI_KEY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
-    let data = await res.json();
-    if(data.candidates && data.candidates[0] && data.candidates[0].content) return data.candidates[0].content.parts[0].text;
-    return null;
-  }catch(e){ return null; }
-}
-async function askPollinations(question, infosRecherche){
-  let system = "Tu es UNIVERS AI 2026, creee par Mathias Diarra a Bamako. Reponds en francais simple. BALLON D OR 2026 : Harry Kane 26 octobre 2026 Londres. COUPE DU MONDE 2026 : Espagne 1-0 Argentine 19 juillet 2026, Ferran Torres 106e. PLUS RICHE MALI : Coulou. HISTOIRE : Mansa Moussa. Createur : Mathias Diarra, chambre informatique 2026, pour eleves de Bamako, travaille jour et nuit dans son telephone. Pere David, Mere Kondjiri Traore, Village Torodo N tjibougou, Ne Bamako 01 janvier 2007, Grand frere Guemba Diarra.";
-  let full = system + "\n\nRESULTATS : " + infosRecherche + "\n\nQuestion : " + question;
-  let res = await fetch("https://text.pollinations.ai/" + encodeURIComponent(full) + "?model=openai");
-  let t = await res.text(); return t;
-}
-async function sendMsg(){
-let inp=document.getElementById('userInput');let txt=inp.value.trim();if(!txt)return;addMsg(txt,'user');inp.value='';
-let low=txt.toLowerCase();
-if(mode==='image'){let url="https://image.pollinations.ai/prompt/"+encodeURIComponent(txt+" , beautiful, high quality")+ "?width=512&height=512&seed="+Math.floor(Math.random()*99999);addMsg("Je cree ton image : "+txt+" ... Attends 3 secondes",'ai');setTimeout(()=>{addMsg("Voici ton image !",'ai',url);},500);return;}
-if(mode==='recherche'){addMsg("Je cherche avec Exa pour toi : "+txt+"\n\nVoir sur Google : https://www.google.com/search?q="+encodeURIComponent(txt),'ai');return;}
-if(low.includes("bonjour")||low.includes("salut")){addMsg("Bonjour Patronne ! Je suis maintenant en Architecture Pro : OpenRouter + Exa + Gemini. Pose-moi n importe quelle question !",'ai');return;}
-if(low.includes("merci")){addMsg("De rien Patronne ! C est avec plaisir !",'ai');return;}
-if(low.includes("createur")||low.includes("fondateur")||low.includes("cree")||low.includes("creer")||low.includes("qui t")){addMsg("C est Mathias Diarra qui m a cree, en 2026 dans sa chambre informatique. Il a decide de creer une AI pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Mathias Diarra, le createur de LA MAISON UNIVERS AI, a travaille jour et nuit pour coder et programmer tous les outils dans son telephone, afin de me rendre plus forte en sagesse et en intelligence.",'ai');return;}
-if(low.includes("pere")||low.includes("papa")||low.includes("david")){addMsg("Le pere de Mathias Diarra s appelle David.",'ai');return;}
-if(low.includes("mere")||low.includes("maman")||low.includes("kondjiri")){addMsg("La mere de Mathias Diarra s appelle Kondjiri Traore.",'ai');return;}
-if(low.includes("village")||low.includes("torodo")){addMsg("Le village de Mathias Diarra c est Torodo, N tjibougou.",'ai');return;}
-if(low.includes("naissance")||low.includes("ne")||low.includes("2007")||low.includes("quand est")){addMsg("Mathias Diarra est ne a Bamako, Mali, le 01 janvier 2007, de nationalite malienne.",'ai');return;}
-if(low.includes("frere")||low.includes("guemba")){addMsg("Mathias Diarra est le grand frere de Guemba Diarra, ne dans la famille Diarra.",'ai');return;}
-if(low.includes("coupe du monde")||low.includes("mondial")||low.includes("qui a gagne la coupe")||low.includes("qui a gagne")&&low.includes("coupe")){addMsg("La Coupe du Monde 2026, c est l ESPAGNE qui l a gagne !\n\nFinale : Espagne 1 - 0 Argentine\nLe dimanche 19 juillet 2026 a New York, au MetLife Stadium.\nBut : Ferran Torres a la 106e minute, en prolongation.\n\nC est la 2e etoile pour l Espagne, apres 2010.\nL Argentine de Messi a perdu, la France a fini 4e contre l Angleterre.\n\nVerifie sur Google : https://www.google.com/search?q=Coupe+du+Monde+2026+Espagne+Argentine+1-0",'ai');return;}
-if(low.includes("ballon")&&low.includes("or")){addMsg("Le Ballon d Or 2026, c est Harry Kane qui l a gagne !\n\nC etait le lundi 26 octobre 2026 a Londres, au London Palladium.\n\n- 1er : Harry Kane, Anglais, 33 ans, Bayern Munich, 73 buts\n- 2e : Kylian Mbappe\n- 3e : Lamine Yamal\n\nChez les femmes, c est Alexia Putellas qui a gagne, 3e fois apres 2021 et 2022.\n\nOusmane Dembele, qui avait gagne en 2025, a fini 7e en 2026.\n\nVerifie sur Google : https://www.google.com/search?q=Ballon+d+Or+2026+Harry+Kane",'ai');return;}
-if((low.includes("riche")&&low.includes("mali"))||low.includes("coulou")||low.includes("mansa moussa")||low.includes("sinsy")){addMsg("Dans l histoire, c est Mansa Moussa, empereur du Mali de 1312 a 1337. Il est souvent decrit comme l homme le plus riche de tous les temps, grace aux mines d or de Bambuk et Bure.\n\nAujourd hui, selon Google, c est Mamadou Sinsy Coulibaly, surnomme Coulou.\n\nIl est ne en 1956. Il est president fondateur du Groupe Kledou : Malivision, Radio Kledou, assurance, tourisme, agrobusiness, distribution, nouvelles technologies. Il a ete president du Conseil national du patronat du Mali.\n\nAutres noms souvent cites par Google : Seydou Nantoume, Madou Dacko, Mossadeck Bally.\n\nIl n y a pas de classement officiel publie par l Etat du Mali.\n\nMoussa Sissoko n est PAS le plus riche du Mali, c est un footballeur.\n\nVerifie sur Google : https://www.google.com/search?q=plus+riche+du+Mali+Coulou",'ai');return;}
-
-let typing=addMsg("Je cherche avec Exa... puis je reflechis avec OpenRouter... Attends 5 secondes...","ai");
-try{
-  let infos = await searchExa(txt);
-  if(!infos) infos = await searchSecours(txt);
-  let answer = await askOpenRouter(txt, infos);
-  if(!answer) answer = await askGemini(txt, infos);
-  if(!answer) answer = await askPollinations(txt, infos);
-  if(answer && answer.length>5){
-    typing.innerText = answer + "\n\nSources : Exa + OpenRouter + Gemini\nVerifie sur Google : https://www.google.com/search?q=" + encodeURIComponent(txt);
-  } else { throw new Error("vide"); }
-}catch(e){
-  typing.innerText = "Patronne, mets d'abord tes 3 nouvelles clés en haut et clique Sauvegarder, sinon je n'ai pas de cerveau.\n\nVoir sur Google : https://www.google.com/search?q=" + encodeURIComponent(txt);
-}
-}
-</script>
-</body>
-</html>
+  let L = getLang();
+  let system = "Tu es UNIVERS AI 2026, creee par Mathias Diarra a Bamako au Mali. Nous sommes le 12 novembre 2026. Hier c etait "+getHierDate()+". "+L.prompt+" Createur : Mathias Diarra, cree UNIVERS AI en 2026 dans sa chambre informatique, pour que tous les eleves de Bamako comprennent promptement la science et le savoir de l intelligence, a travers la technologie mondiale. Il a travaille jour et nuit dans son telephone. Pere : David. Mere : Kondjiri Traore. Village : Torodo, N tjibougou. Ne a Bamako, Mali, le 01 janvier 2007, nationalite malienne. Grand frere de Guemba Diarra, famille Diarra. President du Mali 2026 : General d Armee Assimi GOITA. Modibo Keita : 1er president. MALI : Mansa Moussa empereur 1312-1337, homme le plus riche de l histoire grace aux mines d or de Bambuk et Bure. Aujourd hui selon Google : Mamadou Sinsy Coulibaly dit Coulou, ne en 1956, president fondateur du Groupe Kledou. Autres noms : Seydou Nantoume, Madou Dacko, Mossadeck Bally. Pas de classement officiel publie par l Etat du Mali. INTERDICTION : Ne JAMAIS dire que Moussa Sissoko est le plus riche du Mali. BALLON D OR 2026 OFFICIEL : Attribue lundi 26 octobre 2026 a Londres. Gagnant : Harry Kane, Anglais, 33 ans, Bayern Munich
